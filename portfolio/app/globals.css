@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 *{
-  margin: 0;
-  padding: 0; 
-  overflow-x: hidden;
   background-color: black;
 }
+
+.gradient1{
+  background: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #006DFB 26%,
+    #5E96E8 26%,
+    #5E96E8 45%,
+    #00A6FB 45%,
+    #00A6FB 85%,
+    #7F01D3 85%,
+    #7F01D3 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; 
+  color: transparent;
+}
+
