@@ -4,15 +4,27 @@
   background-color: black;
 }
 
+#navbar h1{
+  font-family: "Sansation", sans-serif;
+}
+
+#navbar nav ul li a{
+  font-family: "Sansation", sans-serif;
+  font-size: 16px;
+  color: #b8b8b8;
+  transition: 0.25s ease-in-out;
+}
+
+#navbar nav ul li a:hover{
+  color: #f4f4f4;
+}
+
 .gradient1{
   background: linear-gradient(
     to right,
     #006DFB 0%,
-    #006DFB 26%,
     #5E96E8 26%,
-    #5E96E8 45%,
     #00A6FB 45%,
-    #00A6FB 85%,
     #7F01D3 85%,
     #7F01D3 100%
   );
@@ -22,3 +34,92 @@
   color: transparent;
 }
 
+.glow-border {
+  position: relative;
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: #111;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #5E96E8 26%,
+    #00A6FB 45%,
+    #7F01D3 85%,
+    #7F01D3 100%
+  );
+  background-size: 300% 300%;
+  border-radius: 14px;
+  z-index: 1;
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border .content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: bold;
+  background-color: #111;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+
+@keyframes borderAnimation {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.navbar-glow-border {
+  position: relative;
+}
+
+.navbar-glow-border::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #5E96E8 26%,
+    #00A6FB 45%,
+    #7F01D3 85%,
+    #7F01D3 100%,
+    #006DFB 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 20px;
+  z-index: 0;
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-glow-border:hover::before {
+  opacity: 1;
+  animation: borderAnimation 3s linear infinite;
+}
+
+.navbar-glow-border .content {
+  position: relative;
+  z-index: 1;
+}

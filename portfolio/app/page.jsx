@@ -9,23 +9,19 @@ gsap.registerPlugin(useGSAP) ;
 
 const Home = () => {
 
-  const container = useRef() ; 
+  const containerRef = useRef() ; 
   
   useGSAP(() =>{
 
-    
-
-  }, {scope: container}) ; 
+  }, {scope: containerRef}) ; 
 
   return (
-    <div ref = {container} className = "w-screen overflow-x-hidden h-screen" id = "body">
-      <div className = "flex justify-center w-screen sticky top-0">
+    <div ref = {containerRef} className = "w-screen overflow-x-hidden h-screen justify-center " id = "body">
         <Navbar />
-      </div>
-      <div className = "h-screen"></div>
-      <div className = "h-screen"></div>
-      <div className = "h-screen"></div>
-
+        <div className = "h-screen w-screen"></div>
+        <div className = "h-screen w-screen"></div>
+        <div className = "h-screen w-screen"></div>
+        <div className = "h-screen w-screen"></div>
     </div>
   )
 }
