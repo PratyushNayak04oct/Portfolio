@@ -100,9 +100,9 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" ref={container} className = "w-[100%]">
+    <section id="projects" ref={container} className = "w-screen h-screen">
       <div className = "container mx-auto">
-        <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 projects-title">
+        <h2 className = "projects-title heading-2 text-[32px] text-center mb-12">
           Projects
         </h2>
         

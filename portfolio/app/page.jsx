@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from '@studio-freight/lenis';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -22,6 +23,56 @@ function Home() {
   const blobsContainerRef = useRef();
   const footerRef = useRef();
   const [documentHeight, setDocumentHeight] = useState(0);
+  const lenisRef = useRef(null);
+
+  // Initialize Lenis for smooth scrolling
+  useEffect(() => {
+    // Create Lenis instance
+    lenisRef.current = new Lenis({
+      duration: 2.4, // Increased duration for slower scrolling (doubled from 1.2)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Ease out expo
+      direction: 'vertical', // Vertical scroll
+      gestureDirection: 'vertical',
+      smooth: true,
+      smoothTouch: false, // Disable smooth scrolling on touch devices
+      touchMultiplier: 1.5, // Reduced touch sensitivity for slower touch scrolling
+      lerp: 0.08, // Lower values create more smoothing effect (0.1 is default)
+      wheelMultiplier: 0.7, // Reduced wheel multiplier for slower mouse wheel scrolling
+    });
+
+    // Connect Lenis to GSAP's ticker for maximum performance
+    gsap.ticker.add((time) => {
+      lenisRef.current.raf(time * 1000);
+    });
+
+    // Set up ScrollTrigger to use the Lenis instance
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (arguments.length) {
+          lenisRef.current.scrollTo(value);
+        }
+        return lenisRef.current.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        };
+      },
+      pinType: document.documentElement.style.transform ? "transform" : "fixed"
+    });
+
+    // Update ScrollTrigger when Lenis scrolls
+    lenisRef.current.on('scroll', ScrollTrigger.update);
+
+    return () => {
+      // Clean up
+      lenisRef.current.destroy();
+      gsap.ticker.remove(lenisRef.current.raf);
+    };
+  }, []);
 
   useEffect(() => {
     const updateDocumentHeight = () => {
@@ -86,7 +137,24 @@ function Home() {
     });
   }, []);
 
+  // Add section scroll navigation function
+  const scrollToSection = (sectionId) => {
+    if (lenisRef.current) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        lenisRef.current.scrollTo(section, {
+          offset: -80, // Offset to account for fixed navbar
+          duration: 2.4, // Increased duration to match main Lenis config
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      }
+    }
+  };
+
   useGSAP(() => {
+    // Refresh ScrollTrigger after Lenis is initialized
+    ScrollTrigger.refresh();
+    
     // Animate sections
     gsap.utils.toArray('section').forEach((section) => {
       gsap.fromTo(
@@ -221,7 +289,7 @@ function Home() {
       blobs.push(
         <div 
           key={i}
-          className = {`blob ${posX} w-[600px] h-[600px]`} 
+          className={`blob ${posX} w-[600px] h-[600px]`} 
           style={{ 
             background: gradients[gradientIndex],
             top: `${posY}px`
@@ -246,9 +314,9 @@ function Home() {
         {generateBlobs()}
       </div>
 
-      <div className = "relative z-10 flex flex-col backdrop-blur-xl px-20 ">
-        <div className = "w-screen items-center">
-          <Navbar />
+      <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
+        <div className = "fixed top-0 z-50 items-center">
+          <Navbar scrollToSection={scrollToSection} />
         </div>
         <Hero />
         <About />

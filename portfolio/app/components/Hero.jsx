@@ -28,7 +28,7 @@ const Hero = () => {
     "UI/UX Designer", 
     "SEO Optimization", 
     "Custom Web Application", 
-    "3D Model Designing"
+    "3D Model Designer"
   ];
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   
@@ -151,9 +151,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" ref={container} className = "mt-8 flex items-center w-full">
+    <section id="home" ref={container} className = "mt-8 flex items-center w-screen h-screen ">
       <div className = "container mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className = "pl-4 md:pl-40">
+        <div className = "pl-4 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
               <img 
@@ -164,11 +164,10 @@ const Hero = () => {
             </div>
             <div className = "hero-subtitle">
               <div className = "flex items-center">
-                <Code size={16} className = "mr-2" />
                 <div className = "h-8 overflow-hidden">
                   <span 
                     ref={textRef} 
-                    className = "heading-2 gradient1 inline-block"
+                    className = "heading-2 gradient1 inline-block text-[24px]"
                   >
                     {roles[currentRoleIndex]}
                   </span>
@@ -178,12 +177,12 @@ const Hero = () => {
           </div>
           
           <h1 className = "mt-4" id="hero-name">
-            Pratyush<br/>
+            Pratyush<br />
             Nayak
           </h1>
         </div>
         
-        <div className = "spline-model h-64 md:h-96 relative" ref={splineContainerRef}>
+        <div className = "spline-model h-120 md:h-96 relative" ref={splineContainerRef}>
           <Suspense fallback={<SplineLoader />}>
             {!splineLoaded && <SplineLoader />}
             <div className = {`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>

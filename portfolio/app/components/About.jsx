@@ -1,8 +1,9 @@
-"use client" ; 
+"use client";
 
 import React, { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const imageSlides = [
   'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -17,6 +18,9 @@ const About = () => {
   const rightSliderRef = useRef();
   
   useGSAP(() => {
+
+    gsap.registerPlugin(ScrollTrigger);
+
     gsap.fromTo(
       '.about-title',
       { opacity: 0, y: 30 },
@@ -31,7 +35,7 @@ const About = () => {
         }
       }
     );
-    
+
     gsap.fromTo(
       '.about-content',
       { opacity: 0, y: 40 },
@@ -48,17 +52,19 @@ const About = () => {
       }
     );
 
-    // Left slider animation
+    gsap.set([leftSliderRef.current, rightSliderRef.current], { opacity: 0 });
+
     gsap.fromTo(
       leftSliderRef.current,
       { 
         opacity: 0,
-        y: -100,
+        x: -50,
       },
       {
         opacity: 1,
-        y: 0,
+        x: 0,
         duration: 1,
+        delay: 1, // 1 second delay
         ease: 'power2.out',
         scrollTrigger: {
           trigger: container.current,
@@ -68,17 +74,17 @@ const About = () => {
       }
     );
 
-    // Right slider animation
     gsap.fromTo(
       rightSliderRef.current,
       { 
         opacity: 0,
-        y: 100
+        x: 50
       },
       {
         opacity: 1,
-        y: 0,
+        x: 0,
         duration: 1,
+        delay: 1, 
         ease: 'power2.out',
         scrollTrigger: {
           trigger: container.current,
@@ -88,45 +94,53 @@ const About = () => {
       }
     );
 
-    // Continuous slide animation for left slider
+    gsap.set(leftSliderRef.current.children, {
+      position: 'relative'
+    });
+    
+    gsap.set(rightSliderRef.current.children, {
+      position: 'relative'
+    });
+
     gsap.to(leftSliderRef.current.children, {
       yPercent: -100 * (imageSlides.length - 1),
-      duration: 10,
       ease: 'none',
-      repeat: -1,
       scrollTrigger: {
         trigger: container.current,
-        start: 'top center',
-        toggleActions: 'play pause resume pause'
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        markers: false,
+        invalidateOnRefresh: true,
       }
     });
 
-    // Continuous slide animation for right slider (reverse direction)
     gsap.to(rightSliderRef.current.children, {
       yPercent: 100 * (imageSlides.length - 1),
-      duration: 10,
       ease: 'none',
-      repeat: -1,
       scrollTrigger: {
         trigger: container.current,
-        start: 'top center',
-        toggleActions: 'play pause resume pause'
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        markers: false,
+        invalidateOnRefresh: true,
       }
     });
   }, { scope: container });
 
   return (
-    <section id="about" ref={container} className = "w-[100%] ">
-      <div className = "container mx-auto">
-        <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 about-title">
+    <section id="about" ref={container} className = "h-screen w-screen flex justify-center items-center">
+      <div className = "container mx-auto px-4">
+        <h2 className = "heading-2 text-center text-[32px]">
           About
         </h2>
         
-        <div className = "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          
-          <div ref={leftSliderRef} className = "hidden md:block h-[400px] overflow-hidden">
+        <div className = "flex flex-col md:flex-row justify-center items-center gap-12">
+
+          <div ref={leftSliderRef} className = "hidden md:flex flex-col h-[400px] w-full md:w-1/3 overflow-hidden relative">
             {imageSlides.map((src, index) => (
-              <div key={index} className = "h-[400px] mb-4">
+              <div key={index} className = "h-[400px] flex-shrink-0 w-full mb-4">
                 <img 
                   src={src} 
                   alt={`Slide ${index + 1}`} 
@@ -136,17 +150,16 @@ const About = () => {
             ))}
           </div>
 
-          {/* Center Content */}
-          <div className = "about-content text-center flex items-center">
+          <div className = "about-content text-center w-full md:w-1/3 flex items-center justify-center">
             <p className = "text-lg leading-relaxed text-gray-300">
               Hello I am, Pratyush Nayak and I provide you with the services of web designing and web development. I specialize in creating beautiful, functional websites that help businesses and individuals achieve their online goals. With expertise in modern web technologies and a keen eye for design, I deliver custom solutions that stand out in today's digital landscape.
             </p>
           </div>
 
           {/* Right Slider */}
-          <div ref={rightSliderRef} className = "hidden md:block h-[400px] overflow-hidden">
+          <div ref={rightSliderRef} className = "hidden md:flex flex-col h-[400px] w-full md:w-1/3 overflow-hidden relative">
             {imageSlides.map((src, index) => (
-              <div key={index} className = "h-[400px] mb-4">
+              <div key={index} className = "h-[400px] flex-shrink-0 w-full mb-4">
                 <img 
                   src={src} 
                   alt={`Slide ${index + 1}`} 

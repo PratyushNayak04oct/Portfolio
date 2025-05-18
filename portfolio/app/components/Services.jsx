@@ -1,16 +1,20 @@
-"use client" ; 
+"use client";
 
 import React, { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Code, 
   PenTool, 
   Globe, 
-  Smartphone, 
-  Database, 
-  Zap 
+  Zap,
+  Box
 } from 'lucide-react';
+import "../globals.css" ; 
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
@@ -25,23 +29,18 @@ const services = [
   },
   {
     id: 3,
-    title: 'Mobile App Development',
-    icon: <Smartphone className = "w-5 h-5 text-primary-400" />
-  },
-  {
-    id: 4,
-    title: 'Custom Web Applications',
+    title: 'SEO Optimization',
     icon: <Code className = "w-5 h-5 text-primary-400" />
   },
   {
-    id: 5,
-    title: 'Database Design',
-    icon: <Database className = "w-5 h-5 text-primary-400" />
+    id: 4,
+    title: 'Custom Web Application',
+    icon: <Zap className = "w-5 h-5 text-primary-400" />
   },
   {
-    id: 6,
-    title: 'Performance Optimization',
-    icon: <Zap className = "w-5 h-5 text-primary-400" />
+    id: 5,
+    title: '3D Model Designing',
+    icon: <Box className = "w-5 h-5 text-primary-400" />
   }
 ];
 
@@ -66,12 +65,13 @@ const Services = () => {
     
     gsap.fromTo(
       '.service-item',
-      { opacity: 0, y: 20 },
+      { opacity: 0, x: -50 },
       { 
         opacity: 1, 
-        y: 0, 
-        stagger: 0.1,
-        duration: 0.5,
+        x: 0, 
+        stagger: 0.3,
+        duration: 0.7,
+        delay: 1.5,
         scrollTrigger: {
           trigger: container.current,
           start: 'top 70%',
@@ -82,9 +82,9 @@ const Services = () => {
   }, { scope: container });
 
   return (
-    <section id="services" ref={container} className = "w-[100%]">
-      <div className = "container mx-auto">
-        <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 services-title">
+    <section id="services" ref={container} className = "w-screen flex items-center justify-center">
+      <div className = "flex flex-row gap-32">
+        <h2 className = "heading-2 text-center mb-12 services-title text-[32px]">
           Services
         </h2>
         

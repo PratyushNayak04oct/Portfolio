@@ -102,11 +102,6 @@ body {
   color: transparent;
 }
 
-.navbar-container {
-  position: relative;
-  isolation: isolate;
-}
-
 .navbar-container::after {
   content: "";
   position: absolute;
@@ -162,7 +157,18 @@ nav ul li a:hover{
 }
 
 .heading-2{
-  font-size: 24px;
   font-weight: 700;
   font-family: "Sansation", sans-serif;
+  background: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #5E96E8 26%,
+    #00A6FB 45%,
+    #7F01D3 85%,
+    #7F01D3 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; 
+  color: transparent;
 }
