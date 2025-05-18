@@ -1,7 +1,75 @@
 @import "tailwindcss";
 
-*{
-  background-color: black;
+
+:root {
+  --gradient: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #5E96E8 26%,
+    #00A6FB 45%,
+    #7F01D3 85%,
+    #7F01D3 100%
+  );
+}
+
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  padding: 1px;
+  background: var(--gradient);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gradient-bg {
+  background: var(--gradient);
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.glass-effect {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.gradient1 {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 #navbar h1{
@@ -34,23 +102,16 @@
   color: transparent;
 }
 
-.glow-border {
+.navbar-container {
   position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 12px;
-  background: #111;
-  overflow: hidden;
-  cursor: pointer;
+  isolation: isolate;
 }
 
-.glow-border::before {
-  content: '';
+.navbar-container::after {
+  content: "";
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+  inset: -2px;
+  border-radius: 18px;
   background: linear-gradient(
     to right,
     #006DFB 0%,
@@ -60,66 +121,36 @@
     #7F01D3 100%
   );
   background-size: 300% 300%;
-  border-radius: 14px;
-  z-index: 1;
-  filter: blur(8px);
+  filter: blur(12px);
+  z-index: -1;
   opacity: 0;
   transition: opacity 0.3s ease;
+  animation: none;
 }
 
-.glow-border .content {
-  position: relative;
-  z-index: 2;
-  color: white;
-  font-weight: bold;
-  background-color: #111;
-  border-radius: 8px;
-  padding: 12px 24px;
-}
-
-@keyframes borderAnimation {
-  0% {
-    background-position: 0% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.navbar-glow-border {
-  position: relative;
-}
-
-.navbar-glow-border::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  background: linear-gradient(
-    to right,
-    #006DFB 0%,
-    #5E96E8 26%,
-    #00A6FB 45%,
-    #7F01D3 85%,
-    #7F01D3 100%,
-    #006DFB 100%
-  );
-  background-size: 200% 100%;
-  border-radius: 20px;
-  z-index: 0;
-  filter: blur(8px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.navbar-glow-border:hover::before {
+.navbar-container:hover::after {
   opacity: 1;
-  animation: borderAnimation 3s linear infinite;
+  animation: borderPulse 4s ease-in-out infinite;
 }
 
-.navbar-glow-border .content {
-  position: relative;
-  z-index: 1;
+.navbar-container:hover .content {
+  border-color: transparent;
+}
+
+@keyframes borderPulse {
+  0%, 100% {
+    inset: -2px;
+  }
+  50% {
+    inset: -4px;
+  }
+}
+
+nav ul li a{
+  color: #b5b5b5;
+  transition: 0.25s ease-in-out;
+}
+
+nav ul li a:hover{
+  color: #ffffff;
 }

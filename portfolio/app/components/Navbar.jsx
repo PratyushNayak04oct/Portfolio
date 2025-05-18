@@ -1,86 +1,123 @@
 "use client";
-import React, { useRef } from 'react'; 
+
+import React, { useRef, useState, useEffect } from 'react'; 
 import Link from 'next/link';
 import "../globals.css"; 
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
-  const containerRef = useRef(null);
-  const glowRef = useRef(null);
-  const tlRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
 
-  useGSAP(() => {
-    const tl = gsap.timeline({ paused: true, repeat: -1 });
-    
-    tl.to(glowRef.current, {
-      backgroundPosition: "100% 50%",
-      duration: 4,
-      ease: "linear"
-    });
-    
-    tl.to(
-      glowRef.current,
-      {
-        top: "-4px",
-        left: "-4px",
-        right: "-4px",
-        bottom: "-4px",
-        duration: 1,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1
-      },
-      0
-    );
-    
-    tlRef.current = tl;
-    const el = containerRef.current;
-    
-    const handleEnter = () => {
-      gsap.to(glowRef.current, { opacity: 1, duration: 0.3 });
-      tl.play();
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
+          !event.target.closest('#menu-button')) {
+        setIsMenuOpen(false);
+      }
     };
-    
-    const handleLeave = () => {
-      gsap.to(glowRef.current, { opacity: 0, duration: 0.3 });
-      tl.pause(0);
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
     };
-    
-    el.addEventListener("mouseenter", handleEnter);
-    el.addEventListener("mouseleave", handleLeave);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('resize', handleResize);
     
     return () => {
-      el.removeEventListener("mouseenter", handleEnter);
-      el.removeEventListener("mouseleave", handleLeave);
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.addEventListener('resize', handleResize);
     };
   }, []);
 
-  return (
-    <div className = "relative mt-8 w-[80vw] h-[12vh]" ref={containerRef} id="navbar">
-      <div
-        ref={glowRef}
-        className = "absolute -top-[2px] -left-[2px] -right-[2px] -bottom-[2px] rounded-[18px] z-0 opacity-0 pointer-events-none"
-        style={{
-          background: `linear-gradient(to right, #006DFB 0%, #5E96E8 26%, #00A6FB 45%, #7F01D3 85%, #7F01D3 100%)`,
-          backgroundSize: "300% 300%",
-          filter: "blur(12px)",
-        }}
-      />
+  useEffect(() => {
+    if (!mobileMenuRef.current) return;
+    
+    if (isMenuOpen) {
+      const mobileMenu = mobileMenuRef.current;
+      mobileMenu.style.opacity = "0";
+      mobileMenu.style.transform = "translateY(-20px)";
+      
+      // Trigger reflow to ensure the animation works
+      void mobileMenu.offsetWidth;
+      
+      mobileMenu.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      mobileMenu.style.opacity = "1";
+      mobileMenu.style.transform = "translateY(0)";
+    }
+  }, [isMenuOpen]);
 
-      <div className = "content relative z-10 h-full w-full bg-[#00000081] border-2 border-[#A3A3A3] rounded-[16px] flex flex-row justify-between items-center px-8">
+  const navLinks = [
+    { href: "#", label: "Home" },
+    { href: "#about", label: "About" },
+    { href: "#project", label: "Projects" },
+    { href: "#contact", label: "Contact" }
+  ];
+
+  return (
+    <div className = "mt-8 w-[80vw] h-[12vh] navbar-container">
+      <div className = "relative z-10 h-full w-full bg-[#000000e3] border-2 border-[#666666] rounded-[16px] flex flex-row justify-between items-center px-8 content">
         <Link href = "/">
           <h1 className = "gradient1 text-[20px] font-[700]">Pratyush Nayak</h1>
         </Link>
-        <nav>
+        
+        <nav className = "hidden md:block">
           <ul className = "list-none flex flex-row gap-12 text-[#D9D9D9] font-[500]">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#project">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <a href = {link.href}>{link.label}</a>
+              </li>
+            ))}
           </ul>
         </nav>
+
+        <button 
+          id="menu-button"
+          className = "md:hidden text-white cursor-pointer"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          <Menu size={24} />
+        </button>
       </div>
+
+      {isMenuOpen && (
+        <div 
+          ref={mobileMenuRef}
+          className = "absolute z-20 top-full left-0 w-full mt-2 rounded-[16px] overflow-hidden bg-[#000000] border-2 border-[#666666]"
+        >
+          <div className = "flex justify-end p-4">
+            <button 
+              onClick={toggleMenu}
+              aria-label="Close menu"
+              className = "text-white hover:text-gray-300 transition-colors cursor-pointer"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <nav className = "px-8 pb-6">
+            <ul className = "list-none flex flex-col gap-6 text-[#D9D9D9] font-[500]">
+              {navLinks.map((link, index) => (
+                <li key={index} className = "border-b border-[#666666] pb-2">
+                  <a 
+                    href={link.href}
+                    onClick={toggleMenu}
+                    className = "block w-full hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };
