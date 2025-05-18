@@ -154,3 +154,15 @@ nav ul li a{
 nav ul li a:hover{
   color: #ffffff;
 }
+
+#hero-name{ 
+  font-size: 96px;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: bolder;
+}
+
+.heading-2{
+  font-size: 24px;
+  font-weight: 700;
+  font-family: "Sansation", sans-serif;
+}

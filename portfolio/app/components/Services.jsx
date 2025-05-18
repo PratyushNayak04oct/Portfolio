@@ -82,7 +82,7 @@ const Services = () => {
   }, { scope: container });
 
   return (
-    <section id="services" ref={container} className = "py-20 px-6">
+    <section id="services" ref={container} className = "w-[100%]">
       <div className = "container mx-auto">
         <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 services-title">
           Services

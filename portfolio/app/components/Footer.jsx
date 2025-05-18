@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer id="contact" className = "py-16 px-6 border-t border-gray-800">
+    <footer id="contact" className = "border-t border-gray-800 w-[100%]">
       <div className = "container mx-auto">
         <h2 className = "text-2xl font-semibold text-center mb-10">
           Thank You for visiting

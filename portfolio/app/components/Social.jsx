@@ -33,7 +33,7 @@ const Social = () => {
   }, { scope: container });
 
   return (
-    <section id="social" ref={container} className = "py-20 px-6">
+    <section id="social" ref={container} className = "w-[100%]">
       <div className = "container mx-auto">
         <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 social-title">
           Connect With Me

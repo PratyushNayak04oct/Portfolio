@@ -1,6 +1,6 @@
 "use client" ; 
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,18 +15,41 @@ import Voices from './components/Voices';
 import Social from './components/Social';
 import Footer from './components/Footer';
 
-// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
   const containerRef = useRef();
   const blobsContainerRef = useRef();
+  const footerRef = useRef();
+  const [documentHeight, setDocumentHeight] = useState(0);
+
+  useEffect(() => {
+    const updateDocumentHeight = () => {
+      if (footerRef.current) {
+        // Get the bottom position of the footer
+        const footerRect = footerRef.current.getBoundingClientRect();
+        const footerBottom = footerRect.bottom + window.scrollY;
+        setDocumentHeight(footerBottom);
+      }
+    };
+
+    updateDocumentHeight();
+
+    window.addEventListener('resize', updateDocumentHeight);
+
+    const timer = setTimeout(updateDocumentHeight, 500);
+    
+    return () => {
+      window.removeEventListener('resize', updateDocumentHeight);
+      clearTimeout(timer);
+    };
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
       const { clientX, clientY } = e;
-      const moveX = (clientX - window.innerWidth / 2) * 0.1; // Increased from 0.05 to 0.1 for faster movement
-      const moveY = (clientY - window.innerHeight / 2) * 0.1; // Increased from 0.05 to 0.1 for faster movement
+      const moveX = (clientX - window.innerWidth / 2) * 0.12; 
+      const moveY = (clientY - window.innerHeight / 2) * 0.12; 
       const blobs = document.querySelectorAll('.blob');
 
       blobs.forEach((blob, index) => {
@@ -154,7 +177,6 @@ function Home() {
       );
     });
 
-    // Social icons animation
     gsap.utils.toArray('.social-icon').forEach((icon, i) => {
       gsap.fromTo(
         icon,
@@ -177,32 +199,57 @@ function Home() {
     });
   }, { scope: containerRef });
 
+  const generateBlobs = () => {
+    if (documentHeight === 0) return [];
+    
+    const blobSpacing = 500; // Space between blobs
+    const numberOfBlobs = Math.ceil(documentHeight / blobSpacing);
+    const blobs = [];
+    
+    const gradients = [
+      'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)',
+      'linear-gradient(to right, #5E96E8 0%, #00A6FB 100%)',
+      'linear-gradient(to right, #00A6FB 0%, #7F01D3 100%)'
+    ];
+    
+    for (let i = 0; i < numberOfBlobs; i++) {
+      const isRight = i % 2 === 0;
+      const posX = isRight ? '-right-[264px]' : '-left-[304px]';
+      const posY = i * blobSpacing;
+      const gradientIndex = i % gradients.length;
+      
+      blobs.push(
+        <div 
+          key={i}
+          className = {`blob ${posX} w-[600px] h-[600px]`} 
+          style={{ 
+            background: gradients[gradientIndex],
+            top: `${posY}px`
+          }}
+        ></div>
+      );
+    }
+    
+    return blobs;
+  };
+
   return (
-    <div ref={containerRef} className = "bg-black relative min-h-screen">
-      {/* Blobs container with absolute positioning and z-index below content */}
+    <div ref={containerRef} className = "bg-black relative">
       <div 
         ref={blobsContainerRef} 
-        className = "absolute top-0 left-0 w-full h-full"
-        style={{ zIndex: 1 }}
+        className = "absolute -top-40 left-0 w-full"
+        style={{ 
+          zIndex: 1,
+          height: documentHeight > 0 ? `${documentHeight}px` : '100%' 
+        }}
       >
-        <div className = "blob -right-[104px] -top-[240px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)' }}></div>
-        <div className = "blob -left-[304px] top-[200px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #5E96E8 0%, #00A6FB 100%)' }}></div>
-        <div className = "blob -right-[224px] top-[480px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #00A6FB 0%, #7F01D3 100%)' }}></div>
-        <div className = "blob -left-[304px] top-[1040px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)' }}></div>
-        <div className = "blob -right-[304px] top-[1520px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #5E96E8 0%, #00A6FB 100%)' }}></div>
-        <div className = "blob -left-[264px] top-[2000px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #00A6FB 0%, #7F01D3 100%)' }}></div>
-        <div className = "blob -right-[264px] top-[2480px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)' }}></div>
-        <div className = "blob -left-[384px] top-[3000px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #5E96E8 0%, #00A6FB 100%)' }}></div>
-        <div className = "blob -right-[264px] top-[3400px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #00A6FB 0%, #7F01D3 100%)' }}></div>
-        <div className = "blob -left-[280px] top-[4000px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)' }}></div>
-        <div className = "blob -right-[280px] top-[4600px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #5E96E8 0%, #00A6FB 100%)' }}></div>
-        <div className = "blob -left-[280px] top-[5100px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #00A6FB 0%, #7F01D3 100%)' }}></div>
-        <div className = "blob -right-[280px] top-[5350px] w-[600px] h-[600px]" style={{ background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 100%)' }}></div>
+        {generateBlobs()}
       </div>
-      
-      {/* Content container with higher z-index to appear above the blobs */}
-      <div className = "relative z-10 flex flex-col items-center backdrop-blur-xl">
-        <Navbar />
+
+      <div className = "relative z-10 flex flex-col backdrop-blur-xl px-20 ">
+        <div className = "w-screen items-center">
+          <Navbar />
+        </div>
         <Hero />
         <About />
         <Projects />
@@ -210,7 +257,9 @@ function Home() {
         <Skills />
         <Voices />
         <Social />
-        <Footer />
+        <div ref={footerRef}>
+          <Footer />
+        </div>
       </div>
     </div>
   );

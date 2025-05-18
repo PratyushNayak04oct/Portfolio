@@ -58,7 +58,7 @@ const Voices = () => {
   const positions = ['testimonial-top-left', 'testimonial-top-right', 'testimonial-bottom-left', 'testimonial-bottom-right'];
 
   return (
-    <section id="voices" ref={container} className = "py-20 px-6">
+    <section id="voices" ref={container} className = "w-[100%]">
       <div className = "container mx-auto">
         <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-16 voices-title">
           Voices Of Trust

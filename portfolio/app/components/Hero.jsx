@@ -1,26 +1,41 @@
-"use client" ; 
+"use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { Code, Briefcase, Coffee } from 'lucide-react';
+import Spline from '@splinetool/react-spline';
 
-// Normally would import from Spline but using a placeholder div instead
-const SplineModel = () => (
-  <div className = "w-full h-full rounded-lg bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center">
+// Loading component to show while Spline loads
+const SplineLoader = () => (
+  <div className = "w-full h-full rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
     <div className = "text-center">
-      <p className = "text-lg opacity-70">3D Model</p>
-      <p className = "text-sm opacity-50">from Spline</p>
+      <p className = "text-lg opacity-70">Loading 3D Model...</p>
+      <p className = "text-sm opacity-50">Please wait</p>
     </div>
   </div>
 );
 
 const Hero = () => {
   const container = useRef();
+  const textRef = useRef(null);
+  const splineContainerRef = useRef(null);
+  const [splineLoaded, setSplineLoaded] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const roles = [
+    "Web Developer", 
+    "UI/UX Designer", 
+    "SEO Optimization", 
+    "Custom Web Application", 
+    "3D Model Designing"
+  ];
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   
   useGSAP(() => {
     const tl = gsap.timeline();
     
+    // Initial animations for hero elements
     tl.fromTo(
       '.hero-image',
       { opacity: 0, x: -50 },
@@ -50,12 +65,95 @@ const Hero = () => {
       { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' },
       '-=1'
     );
+    
+    // Create a more consistent text animation with fixed timing
+    const animateRoleText = () => {
+      // Clear any existing animations on the text element
+      gsap.killTweensOf(textRef.current);
+      
+      const roleTl = gsap.timeline({
+        onComplete: () => {
+          // Update to the next role when animation completes
+          setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+          // After a short delay, animate the next role
+          setTimeout(animateRoleText, 100);
+        }
+      });
+      
+      roleTl
+        .fromTo(
+          textRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+        )
+        .to(
+          textRef.current,
+          { 
+            y: 0, 
+            opacity: 1, 
+            duration: 1, // Show text for 1.2 seconds (faster)
+            ease: "none" 
+          }
+        )
+        .to(
+          textRef.current,
+          { 
+            y: -20, 
+            opacity: 0, 
+            duration: 0.3, 
+            ease: "power2.in" 
+          }
+        );
+    };
+    
+    // Start the animation sequence after the initial animations
+    setTimeout(animateRoleText, 1000);
+    
+    return () => {
+      gsap.killTweensOf(textRef.current);
+    };
+    
   }, { scope: container });
 
+  // Function to handle when Spline has loaded
+  const onSplineLoad = () => {
+    setSplineLoaded(true);
+  };
+
+  // Mouse tracking for the tooltip
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!splineContainerRef.current) return;
+      
+      const rect = splineContainerRef.current.getBoundingClientRect();
+      const isInsideContainer = 
+        e.clientX >= rect.left && 
+        e.clientX <= rect.right && 
+        e.clientY >= rect.top && 
+        e.clientY <= rect.bottom;
+      
+      if (isInsideContainer) {
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
-    <section id="home" ref={container} className = "min-h-screen flex items-center pt-20 pb-10 px-6">
+    <section id="home" ref={container} className = "mt-8 flex items-center w-full">
       <div className = "container mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className = "space-y-6">
+        <div className = "pl-4 md:pl-40">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
               <img 
@@ -65,36 +163,60 @@ const Hero = () => {
               />
             </div>
             <div className = "hero-subtitle">
-              <div className = "flex items-center space-x-2 text-primary-400">
-                <Code size={16} />
-                <span>Web Developer</span>
+              <div className = "flex items-center">
+                <Code size={16} className = "mr-2" />
+                <div className = "h-8 overflow-hidden">
+                  <span 
+                    ref={textRef} 
+                    className = "heading-2 gradient1 inline-block"
+                  >
+                    {roles[currentRoleIndex]}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
           
-          <h1 className = "text-4xl md:text-6xl font-bold leading-tight hero-title">
+          <h1 className = "mt-4" id="hero-name">
             Pratyush<br/>
             Nayak
           </h1>
-          
-          <div className = "space-y-2">
-            <div className = "flex items-center space-x-2 hero-role">
-              <Briefcase size={16} className = "text-secondary-400" />
-              <span>Frontend Developer</span>
-            </div>
-            <div className = "flex items-center space-x-2 hero-role">
-              <Code size={16} className = "text-secondary-400" />
-              <span>UI/UX Designer</span>
-            </div>
-            <div className = "flex items-center space-x-2 hero-role">
-              <Coffee size={16} className = "text-secondary-400" />
-              <span>Digital Creator</span>
-            </div>
-          </div>
         </div>
         
-        <div className = "spline-model h-[350px] md:h-[450px]">
-          <SplineModel />
+        <div className = "spline-model h-64 md:h-96 relative" ref={splineContainerRef}>
+          <Suspense fallback={<SplineLoader />}>
+            {!splineLoaded && <SplineLoader />}
+            <div className = {`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>
+              <Spline
+                scene="https://prod.spline.design/hxkqLnCYarF2d2E0/scene.splinecode"
+                onLoad={onSplineLoad}
+              />
+            </div>
+            
+            {isHovering && splineLoaded && (
+              <div 
+                className = "absolute bg-black/80 text-white px-3 py-1.5 rounded-md text-sm pointer-events-none flex items-center space-x-1.5"
+                style={{
+                  left: `${mousePosition.x}px`,
+                  top: `${mousePosition.y - 40}px`,
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 50,
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"></path>
+                  <path d="M14 18a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"></path>
+                  <path d="M6 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                  <path d="M18 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                  <path d="m14 6-8 8"></path>
+                  <path d="m18 10-8 8"></path>
+                  <path d="m6 10 8 8"></path>
+                </svg>
+                <span>Click + Drag to Rotate</span>
+              </div>
+            )}
+          </Suspense>
         </div>
       </div>
     </section>

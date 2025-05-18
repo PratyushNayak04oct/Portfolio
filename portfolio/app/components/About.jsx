@@ -116,14 +116,14 @@ const About = () => {
   }, { scope: container });
 
   return (
-    <section id="about" ref={container} className = "py-20 px-6 w-full">
+    <section id="about" ref={container} className = "w-[100%] ">
       <div className = "container mx-auto">
         <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-12 about-title">
           About
         </h2>
         
         <div className = "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Left Slider */}
+          
           <div ref={leftSliderRef} className = "hidden md:block h-[400px] overflow-hidden">
             {imageSlides.map((src, index) => (
               <div key={index} className = "h-[400px] mb-4">
