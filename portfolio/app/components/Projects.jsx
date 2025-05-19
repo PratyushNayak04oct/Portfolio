@@ -161,24 +161,27 @@ const Projects = () => {
         
         <div className = "relative flex justify-center w-full">
           <div 
-            className = "overflow-hidden rounded-lg gradient-border p-1 w-[80vw] mx-auto"
+            className = "overflow-hidden rounded-lg gradient-border p-1 w-[90vw] md:w-[80vw] mx-auto"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div ref={cardRef} className = "project-card glass-effect rounded-lg p-12 h-112">
-              <div className = "grid md:grid-cols-2 gap-6 h-full">
-                <div className = "h-full rounded-lg overflow-hidden">
+            <div ref={cardRef} className = "project-card glass-effect rounded-lg md:p-12 p-4 md:h-[76vh] h-auto overflow-y-auto">
+              <div className = "flex flex-col md:grid md:grid-cols-2 gap-6 h-full">
+                {/* Image container - fixed height ratio */}
+                <div className = "rounded-lg overflow-hidden mb-4 md:mb-0 h-56 md:h-auto md:min-h-full">
                   <img 
                     src={projects[currentProject].image} 
                     alt={projects[currentProject].title} 
                     className = "w-full h-full object-cover"
                   />
                 </div>
-                <div className = "flex flex-col justify-between h-full">
+                
+                {/* Content container - scrollable if needed */}
+                <div className = "flex flex-col justify-between h-full md:max-h-full md:overflow-y-auto">
                   <div>
                     <h3 className = "text-xl font-semibold mb-2">{projects[currentProject].title}</h3>
                     <p className = "text-gray-300 mb-4">{projects[currentProject].description}</p>
-                    <div className = "mb-4">
+                    <div className = "mb-6">
                       <p className = "text-sm text-gray-400 mb-2">Tech used:</p>
                       <div className = "flex flex-wrap gap-2">
                         {projects[currentProject].tech.map((tech, index) => (
@@ -187,17 +190,21 @@ const Projects = () => {
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <button className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer">Live Site</button>
+                  
+                  {/* Buttons - stay at bottom */}
+                  <div className = "flex flex-wrap gap-4 mb-2 mt-auto">
+                    <button className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer">
+                      Live Site
+                    </button>
                     <a 
                       href={projects[currentProject].repoUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className = "github-btn ml-4 px-6 py-2 rounded-[8px] text-sm font-medium border border-gray-600 cursor-pointer relative overflow-hidden group inline-flex"
+                      className = "github-btn px-6 py-2 rounded-[8px] text-sm font-medium border border-gray-600 cursor-pointer relative overflow-hidden group inline-flex"
                     >
                       <span className = "absolute inset-0 w-0 bg-gradient-to-r from-[#006DFB] via-[#00A6FB] to-[#7F01D3] transition-all duration-300 ease-out group-hover:w-full"></span>
                       <span className = "flex items-center justify-center relative z-10 group-hover:text-white transition-colors duration-300">
-                        <FaGithub size={16} className = "mr-4" />
+                        <FaGithub size={16} className = "mr-2" />
                         Code
                       </span>
                     </a>
@@ -207,7 +214,8 @@ const Projects = () => {
             </div>
           </div>
           
-          <div className = "mt-6 flex justify-between items-center px-4 w-[80vw] absolute bottom-[-3rem]">
+          {/* Navigation controls - adjust positioning for mobile */}
+          <div className = "mt-6 flex justify-between items-center px-4 w-[90vw] md:w-[80vw] absolute bottom-[-3rem]">
             <button 
               onClick={prevProject}
               className = "w-10 h-10 rounded-full flex items-center justify-center bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer"
@@ -236,6 +244,8 @@ const Projects = () => {
               <ArrowRight size={18} />
             </button>
           </div>
+          
+          {/* Autoplay indicator - adjust positioning for mobile */}
           {autoplayPaused && (
             <div className = "absolute bottom-[-5rem] text-xs text-gray-400">
               Autoplay paused. Hover out to resume.
