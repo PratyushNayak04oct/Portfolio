@@ -381,9 +381,9 @@ function Home() {
       </div>
 
       <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
-        {/* <div className = "fixed top-0 z-50 items-center">
+        <div className = "fixed top-0 z-50 items-center">
           <Navbar scrollToSection={scrollToSection} />
-        </div> */}
+        </div>
         <Hero />
         <About />
         <Projects />

@@ -92,8 +92,8 @@ const Navbar = () => {
         backdropFilter: isScrolled ? 'blur(10px)' : 'none'
       }}
     >
-      <div className = "navbar-container w-[80vw] h-[12vh]">
-        <div className = "relative z-10 h-full w-full bg-[#000000e3] border-2 border-[#666666] rounded-[16px] flex flex-row justify-between items-center px-8 content">
+      <div className = "w-[80vw] h-[12vh] mx-auto">
+        <div className = "relative z-10 h-full w-full bg-[#000000e3] border-2 border-[#666666] rounded-[16px] flex flex-row justify-between items-center px-8">
           <Link href="/">
             <h1 className = "gradient1 text-[20px] font-[700]">Pratyush Nayak</h1>
           </Link>

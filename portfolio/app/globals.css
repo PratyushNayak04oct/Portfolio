@@ -95,36 +95,11 @@ body {
   color: transparent;
 }
 
-.navbar-container::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 18px;
-  background: linear-gradient(
-    to right,
-    #006DFB 0%,
-    #5E96E8 26%,
-    #00A6FB 45%,
-    #7F01D3 85%,
-    #7F01D3 100%
-  );
-  background-size: 300% 300%;
-  filter: blur(12px);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  animation: none;
-}
+/* Removed the glowing border animation from navbar-container::after */
 
-.navbar-container:hover::after {
-  opacity: 1;
-  animation: borderPulse 4s ease-in-out infinite;
-}
+/* Removed hover effect that triggered the animation */
 
-.navbar-container:hover .content {
-  border-color: transparent;
-}
-
+/* Kept the keyframes definition in case it's used elsewhere */
 @keyframes borderPulse {
   0%, 100% {
     inset: -2px;
