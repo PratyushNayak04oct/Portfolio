@@ -23,7 +23,25 @@ function Home() {
   const blobsContainerRef = useRef();
   const footerRef = useRef();
   const [documentHeight, setDocumentHeight] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const lenisRef = useRef(null);
+
+  // Check if device is mobile based on screen width
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // Initialize Lenis for smooth scrolling
   useEffect(() => {
@@ -265,6 +283,30 @@ function Home() {
         }
       );
     });
+
+    // Update blobs scale based on screen size
+    const updateBlobsScale = () => {
+      const blobs = document.querySelectorAll('.blob');
+      const scale = window.innerWidth < 768 ? 0.25 : 1;
+      
+      blobs.forEach(blob => {
+        gsap.to(blob, {
+          scale: scale,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+    };
+
+    // Initial update and listen for resize
+    updateBlobsScale();
+    window.addEventListener('resize', updateBlobsScale);
+
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', updateBlobsScale);
+    };
+    
   }, { scope: containerRef });
 
   const generateBlobs = () => {
@@ -284,10 +326,22 @@ function Home() {
     
     for (let i = 0; i < numberOfBlobs; i++) {
       const isRight = i % 2 === 0;
-      const posX = isRight ? '-right-[264px]' : '-left-[304px]';
-      const posY = i * blobSpacing;
+      let blobWidth = 600;
+      let blobHeight = 600;
+      let rightOffset = 264;
+      let leftOffset = 304;
       
-      // Skip this blob if it would be positioned beyond our adjusted height
+      if (isMobile) {
+        blobWidth = 600 * 0.35; 
+        blobHeight = 600 * 0.35;
+        rightOffset = 66;
+        leftOffset = 76;
+      }
+      
+
+      const posX = isRight ? `-right-[${rightOffset}px]` : `-left-[${leftOffset}px]`;
+      const posY = i * blobSpacing;
+
       if (posY >= adjustedHeight) continue;
       
       const gradientIndex = i % gradients.length;
@@ -295,10 +349,13 @@ function Home() {
       blobs.push(
         <div 
           key={i}
-          className = {`blob ${posX} w-[600px] h-[600px]`} 
+          className = {`blob ${posX} absolute`}
           style={{ 
             background: gradients[gradientIndex],
-            top: `${posY}px`
+            top: `${posY}px`,
+            width: `${blobWidth}px`,
+            height: `${blobHeight}px`,
+            pointerEvents: 'none', // Make blobs non-interactive
           }}
         ></div>
       );
@@ -311,7 +368,7 @@ function Home() {
     <div ref={containerRef} className = "bg-black relative overflow-x-hidden">
       <div 
         ref={blobsContainerRef} 
-        className = "absolute -top-40 left-0 w-full"
+        className = "absolute -top-40 left-0 w-full pointer-events-none"
         style={{ 
           zIndex: 1,
           height: documentHeight > 0 ? `${documentHeight}px` : '100%' 
