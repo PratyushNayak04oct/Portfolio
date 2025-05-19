@@ -20,27 +20,27 @@ const services = [
   {
     id: 1,
     title: 'Website Development',
-    icon: <Globe className = "w-5 h-5 text-primary-400" />
+    icon: <Globe className = "w-5 h-5 text-primary-400 text-purple-600" />
   },
   {
     id: 2,
     title: 'UI/UX Design',
-    icon: <PenTool className = "w-5 h-5 text-primary-400" />
+    icon: <PenTool className = "w-5 h-5 text-primary-400 text-purple-600" />
   },
   {
     id: 3,
     title: 'SEO Optimization',
-    icon: <Code className = "w-5 h-5 text-primary-400" />
+    icon: <Code className = "w-5 h-5 text-primary-400 text-purple-600" />
   },
   {
     id: 4,
     title: 'Custom Web Application',
-    icon: <Zap className = "w-5 h-5 text-primary-400" />
+    icon: <Zap className = "w-5 h-5 text-primary-400 text-purple-600" />
   },
   {
     id: 5,
     title: '3D Model Designing',
-    icon: <Box className = "w-5 h-5 text-primary-400" />
+    icon: <Box className = "w-5 h-5 text-primary-400 text-purple-600" />
   }
 ];
 

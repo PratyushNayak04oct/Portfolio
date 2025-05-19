@@ -155,42 +155,39 @@ const About = () => {
         }
       );
 
-      const slideHeight = 210; // height of each slide
-      const slideMargin = 0; // No margin between slides - completely adjacent
-
-      // Animation for left slider - only starts when scrolled to section
-      const leftSlides = gsap.utils.toArray(".left-slide");
-      gsap.set(leftSlides, { y: (i) => i * (slideHeight + slideMargin) });
-
-      gsap.to(leftSlides, {
-        y: (i) => -((leftSlides.length - 1 - i) * (slideHeight + slideMargin)),
-        ease: "power1.inOut",
+      // Create continuous sliding effect
+      // First, duplicate the slides to create the continuous effect
+      const leftTrack = leftSliderRef.current.querySelector(".slides-track");
+      const rightTrack = rightSliderRef.current.querySelector(".slides-track");
+      
+      // Animation for left slider using a continual loop
+      gsap.to(leftTrack, {
+        y: `-50%`,  // Move up by 50% of the track's height
+        ease: "none",
         scrollTrigger: {
           trigger: container.current,
           start: "top 70%",
           end: "bottom -50%",
-          scrub: 6,
-          toggleActions: "play none none reverse",
+          scrub: 2,
           invalidateOnRefresh: true,
         },
       });
 
-      // Animation for right slider - only starts when scrolled to section
-      const rightSlides = gsap.utils.toArray(".right-slide");
-      gsap.set(rightSlides, { y: (i) => i * (slideHeight + slideMargin) });
-
-      gsap.to(rightSlides, {
-        y: (i) => -((rightSlides.length - 1 - i) * (slideHeight + slideMargin)),
-        ease: "power1.inOut",
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top 70%",
-          end: "bottom -50%",
-          scrub: 6,
-          toggleActions: "play none none reverse",
-          invalidateOnRefresh: true,
-        },
-      });
+      // Animation for right slider using a continual loop (opposite direction)
+      gsap.fromTo(rightTrack, 
+        { y: `0%` },  // Start at bottom position
+        {
+          y: `-50%`,  // Move up by 50% of the track's height
+          ease: "none",
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top 70%",
+            end: "bottom -50%",
+            scrub: 2,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
 
       ScrollTrigger.refresh();
     }, container);
@@ -202,9 +199,9 @@ const About = () => {
     <section
       id="about"
       ref={container}
-      className = "w-screen flex justify-center items-center md:mt-32 mt-20"
+      className = "w-screen flex justify-center items-center md:mt-32 mt-20 py-20"
     >
-      {/* Custom CSS for 32px gap and image flush */}
+      {/* Custom CSS for slider effects */}
       <style>{`
         /* Only apply gap and slider styles on md and up */
         @media (min-width: 768px) {
@@ -218,58 +215,73 @@ const About = () => {
             gap: 0 !important;
           }
         }
-        .slider-container,
-        .slides-wrapper,
-        .left-slide,
-        .right-slide {
-          margin: 0 !important;
-          padding: 0 !important;
+        
+        .slider-container {
+          position: relative;
+          overflow: hidden;
+          height: 400px;
         }
-        .left-slide img,
-        .right-slide img {
-          margin: 0 !important;
-          padding: 0 !important;
-          border: none !important;
-          box-shadow: none !important;
+        
+        .slides-track {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          /* Add extra height to account for gaps */
+          height: calc(200% + 160px); /* 4 slides * 40px gap = 160px extra */
+          transition: none;
+        }
+        
+        .slide {
+          height: 400px;
+          width: 100%;
+          display: block;
+          margin: 0;
+          padding: 0;
+          margin-bottom: 20px; /* Add gap between slides */
+        }
+        
+        .slide img {
           display: block;
           width: 100%;
           height: 100%;
+          object-fit: cover;
+          margin: 0;
+          padding: 0;
+          border: none;
+          box-shadow: none;
+          border-radius: 20px;
         }
       `}</style>
-      <div className = "container px-2">
-        <h2 className = "text-center text-[32px] about-title mb-12">
+      <div className = "container px-2 py-10">
+        <h2 className = "text-center text-[40px] about-title mb-16">
           <span className = "heading-2 inline-block">About</span>
         </h2>
         <div className = "about-flex-row flex flex-col md:flex-row justify-center items-center gap-0 md:gap-8">
           {/* Left Slider (hidden on <md) */}
           <div
             ref={leftSliderRef}
-            className = "slider-container hidden md:block w-1/3 h-[210px] overflow-hidden relative opacity-0 invisible"
-            style={{ transition: "opacity 0.5s ease" }}
+            className = "slider-container hidden md:block w-1/3 opacity-0 invisible"
           >
-            <div className = "slides-wrapper relative">
+            <div className = "slides-track">
+              {/* Original slides */}
               {leftImageSlides.map((src, index) => (
-                <div
-                  key={`left-${index}`}
-                  className = "left-slide h-[210px] w-full relative"
-                  style={{
-                    zIndex: leftImageSlides.length - index,
-                    marginBottom: "0",
-                  }}
-                >
-                  <img
-                    src={src}
-                    alt={`Slide ${index + 1}`}
-                    className = "w-full h-full object-cover rounded-none block"
-                  />
+                <div key={`left-${index}`} className = "slide">
+                  <img src={src} alt={`Slide ${index + 1}`} />
+                </div>
+              ))}
+              {/* Duplicate slides for continuous effect */}
+              {leftImageSlides.map((src, index) => (
+                <div key={`left-dup-${index}`} className = "slide">
+                  <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
             </div>
           </div>
 
           {/* Content */}
-          <div className = "about-content text-center w-full md:w-1/3 flex items-center justify-center opacity-0">
-            <p className = "text-lg leading-relaxed text-gray-300">
+          <div className = "about-content text-center w-full md:w-1/3 flex items-center justify-center opacity-0 px-6 md:px-2 py-8">
+            <p className = "text-xl leading-relaxed text-gray-300">
               Hello I am, Pratyush Nayak and I provide you with the services of
               web designing and web development. I specialize in creating
               beautiful, functional websites that help businesses and
@@ -282,24 +294,19 @@ const About = () => {
           {/* Right Slider (hidden on <md) */}
           <div
             ref={rightSliderRef}
-            className = "slider-container hidden md:block w-1/3 h-[210px] overflow-hidden relative opacity-0 invisible"
-            style={{ transition: "opacity 0.5s ease" }}
+            className = "slider-container hidden md:block w-1/3 opacity-0 invisible"
           >
-            <div className = "slides-wrapper relative">
-              {rightImageSlides.map((src, index) => (
-                <div
-                  key={`right-${index}`}
-                  className = "right-slide h-[210px] w-full relative"
-                  style={{
-                    zIndex: rightImageSlides.length - index,
-                    marginBottom: "0",
-                  }}
-                >
-                  <img
-                    src={src}
-                    alt={`Slide ${index + 1}`}
-                    className = "w-full h-full object-cover rounded-none block"
-                  />
+            <div className = "slides-track" style={{ top: 'auto', bottom: '0' }}>
+              {/* Display slides in reverse order for right slider */}
+              {rightImageSlides.slice().reverse().map((src, index) => (
+                <div key={`right-${index}`} className = "slide">
+                  <img src={src} alt={`Slide ${index + 1}`} />
+                </div>
+              ))}
+              {/* Duplicate slides for continuous effect */}
+              {rightImageSlides.slice().reverse().map((src, index) => (
+                <div key={`right-dup-${index}`} className = "slide">
+                  <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
             </div>
