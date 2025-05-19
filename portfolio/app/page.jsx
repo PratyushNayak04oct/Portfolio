@@ -338,10 +338,14 @@ function Home() {
         leftOffset = 76;
       }
       
-
-      const posX = isRight ? `-right-[${rightOffset}px]` : `-left-[${leftOffset}px]`;
+      // Instead of creating a className string with template literals inside,
+      // use a separate style property for positioning
+      const positionStyle = isRight 
+        ? { right: `-${rightOffset}px` } 
+        : { left: `-${leftOffset}px` };
+      
       const posY = i * blobSpacing;
-
+  
       if (posY >= adjustedHeight) continue;
       
       const gradientIndex = i % gradients.length;
@@ -349,13 +353,14 @@ function Home() {
       blobs.push(
         <div 
           key={i}
-          className = {`blob ${posX} absolute`}
+          className="blob absolute"
           style={{ 
             background: gradients[gradientIndex],
             top: `${posY}px`,
             width: `${blobWidth}px`,
             height: `${blobHeight}px`,
             pointerEvents: 'none', // Make blobs non-interactive
+            ...positionStyle // Apply left or right positioning
           }}
         ></div>
       );
