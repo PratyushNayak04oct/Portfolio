@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 
 import Navbar from "./components/Navbar";
+import HomeNavbarFix from "./components/HomeNavbarFix";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
@@ -56,6 +57,7 @@ function Home() {
       touchMultiplier: 1.5, // Reduced touch sensitivity for slower touch scrolling
       lerp: 0.08, // Lower values create more smoothing effect (0.1 is default)
       wheelMultiplier: 0.7,
+      wheelEventsTarget: document.documentElement,
     });
 
     // Connect Lenis to GSAP's ticker for maximum performance
@@ -383,7 +385,10 @@ function Home() {
       </div>
 
       <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
-        <Navbar />
+        <div className = "fixed top-0 z-50">
+          <Navbar />
+          <HomeNavbarFix />
+        </div>
         <Hero />
         <About />
         <Projects />

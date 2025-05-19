@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react'; 
@@ -65,20 +64,20 @@ const Navbar = () => {
   return (
     <header 
       ref={navbarRef}
-      className="fixed top-0 left-0 right-0 w-full z-50 flex justify-center"
+      className = "fixed top-5 left-0 right-0 w-full z-[999] flex justify-center"
       style={{ 
-        padding: '8px 0',
+        position: 'fixed',
         transition: 'padding 0.3s ease'
       }}
     >
-      <div className="w-[80vw] max-w-7xl flex items-center">
-        <div className="flex flex-row items-center h-[10vh] w-full bg-[#000000a0] border-2 border-[#666666] rounded-[16px] backdrop-blur-sm justify-between transition-colors duration-300 px-4">
+      <div className = "w-[80vw] max-w-7xl">
+        <div className = "flex flex-row items-center h-[10vh] w-full bg-[#000000a0] border-2 border-[#666666] rounded-[16px] backdrop-blur-sm justify-between transition-colors duration-300 px-4">
           <Link href="/">
-            <h1 className="gradient1 text-[20px] font-[700]">Pratyush Nayak</h1>
+            <h1 className = "gradient1 text-[20px] font-[700]">Pratyush Nayak</h1>
           </Link>
           
-          <nav className="hidden md:block">
-            <ul className="list-none flex flex-row gap-12 text-[#D9D9D9] font-[500]">
+          <nav className = "hidden md:block">
+            <ul className = "list-none flex flex-row gap-12 text-[#D9D9D9] font-[500]">
               {navLinks.map((link, index) => (
                 <li key={index}>
                   <a href={link.href}>{link.label}</a>
@@ -89,7 +88,7 @@ const Navbar = () => {
 
           <button 
             id="menu-button"
-            className="md:hidden text-white cursor-pointer"
+            className = "md:hidden text-white cursor-pointer"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -101,25 +100,25 @@ const Navbar = () => {
       {isMenuOpen && (
         <div 
           ref={mobileMenuRef}
-          className="absolute z-50 top-[10vh] left-1/2 transform -translate-x-1/2 w-[80vw] mt-2 rounded-[16px] overflow-hidden bg-[#000000] border-2 border-[#666666]"
+          className = "fixed z-[990] top-[calc(10vh+15px)] left-1/2 transform -translate-x-1/2 w-[80vw] rounded-[16px] overflow-hidden bg-[#000000] border-2 border-[#666666]"
         >
-          <div className="flex justify-end p-4">
+          <div className = "flex justify-end p-4">
             <button 
               onClick={toggleMenu}
               aria-label="Close menu"
-              className="text-white hover:text-gray-300 transition-colors cursor-pointer"
+              className = "text-white hover:text-gray-300 transition-colors cursor-pointer"
             >
               <X size={24} />
             </button>
           </div>
-          <nav className="px-8 pb-6">
-            <ul className="list-none flex flex-col gap-6 text-[#D9D9D9] font-[500]">
+          <nav className = "px-8 pb-6">
+            <ul className = "list-none flex flex-col gap-6 text-[#D9D9D9] font-[500]">
               {navLinks.map((link, index) => (
-                <li key={index} className="border-b border-[#666666] pb-2">
+                <li key={index} className = "border-b border-[#666666] pb-2">
                   <a 
                     href={link.href}
                     onClick={toggleMenu}
-                    className="block w-full hover:text-white transition-colors"
+                    className = "block w-full hover:text-white transition-colors"
                   >
                     {link.label}
                   </a>
