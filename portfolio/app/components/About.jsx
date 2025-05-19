@@ -199,7 +199,7 @@ const About = () => {
     <section
       id="about"
       ref={container}
-      className = "w-screen flex justify-center items-center md:mt-32 mt-20 py-20"
+      className = "w-screen flex justify-center items-center md:mt-20 mt-12"
     >
       {/* Custom CSS for slider effects */}
       <style>{`
