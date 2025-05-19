@@ -153,7 +153,7 @@ const Hero = () => {
   return (
     <section id="home" ref={container} className = "mt-36 md:mt-12 flex items-center min-h-screen">
       <div className = "container mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className = "pl-4 md:pl-28">
+        <div className = "pl-16 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
               <img 
@@ -185,7 +185,7 @@ const Hero = () => {
         <div className = "spline-model h-96 relative md:pl-0 pl-12" ref={splineContainerRef}>
           <Suspense fallback={<SplineLoader />}>
             {!splineLoaded && <SplineLoader />}
-            <div className={`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>
+            <div className = {`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>
               <Spline
                 scene="https://prod.spline.design/hxkqLnCYarF2d2E0/scene.splinecode"
                 onLoad={onSplineLoad}
