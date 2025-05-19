@@ -199,7 +199,7 @@ const About = () => {
     <section
       id="about"
       ref={container}
-      className = "w-screen flex justify-center items-center md:mt-20 mt-12"
+      className="w-screen flex justify-center items-center mt-12 md:mt-20 overflow-visible"
     >
       {/* Custom CSS for slider effects */}
       <style>{`
@@ -228,7 +228,7 @@ const About = () => {
           left: 0;
           width: 100%;
           /* Add extra height to account for gaps */
-          height: calc(200% + 160px); /* 4 slides * 40px gap = 160px extra */
+          height: calc(200% + 80px); /* 4 slides * 20px gap = 80px extra */
           transition: none;
         }
         
@@ -252,27 +252,38 @@ const About = () => {
           box-shadow: none;
           border-radius: 20px;
         }
+
+        /* Prevent horizontal scrollbar */
+        html, body {
+          overflow-x: hidden;
+          max-width: 100%;
+        }
+        
+        /* Control vertical overflow while preventing extra scrollbar */
+        #about {
+          box-sizing: border-box;
+        }
       `}</style>
-      <div className = "container px-2 py-10">
-        <h2 className = "text-center text-[40px] about-title mb-16">
-          <span className = "heading-2 inline-block">About</span>
+      <div className="container px-2 py-4">
+        <h2 className="text-center text-[40px] about-title mb-10">
+          <span className="heading-2 inline-block">About</span>
         </h2>
-        <div className = "about-flex-row flex flex-col md:flex-row justify-center items-center gap-0 md:gap-8">
+        <div className="about-flex-row flex flex-col md:flex-row justify-center items-center gap-0 md:gap-8">
           {/* Left Slider (hidden on <md) */}
           <div
             ref={leftSliderRef}
-            className = "slider-container hidden md:block w-1/3 opacity-0 invisible"
+            className="slider-container hidden md:block w-1/3 opacity-0 invisible"
           >
-            <div className = "slides-track">
+            <div className="slides-track">
               {/* Original slides */}
               {leftImageSlides.map((src, index) => (
-                <div key={`left-${index}`} className = "slide">
+                <div key={`left-${index}`} className="slide">
                   <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
               {/* Duplicate slides for continuous effect */}
               {leftImageSlides.map((src, index) => (
-                <div key={`left-dup-${index}`} className = "slide">
+                <div key={`left-dup-${index}`} className="slide">
                   <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
@@ -280,8 +291,8 @@ const About = () => {
           </div>
 
           {/* Content */}
-          <div className = "about-content text-center w-full md:w-1/3 flex items-center justify-center opacity-0 px-6 md:px-2 py-8">
-            <p className = "text-xl leading-relaxed text-gray-300">
+          <div className="about-content text-center w-full md:w-1/3 flex items-center justify-center opacity-0 px-6 md:px-2 py-4">
+            <p className="text-xl leading-relaxed text-gray-300">
               Hello I am, Pratyush Nayak and I provide you with the services of
               web designing and web development. I specialize in creating
               beautiful, functional websites that help businesses and
@@ -294,18 +305,18 @@ const About = () => {
           {/* Right Slider (hidden on <md) */}
           <div
             ref={rightSliderRef}
-            className = "slider-container hidden md:block w-1/3 opacity-0 invisible"
+            className="slider-container hidden md:block w-1/3 opacity-0 invisible"
           >
-            <div className = "slides-track" style={{ top: 'auto', bottom: '0' }}>
+            <div className="slides-track" style={{ top: 'auto', bottom: '0' }}>
               {/* Display slides in reverse order for right slider */}
               {rightImageSlides.slice().reverse().map((src, index) => (
-                <div key={`right-${index}`} className = "slide">
+                <div key={`right-${index}`} className="slide">
                   <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
               {/* Duplicate slides for continuous effect */}
               {rightImageSlides.slice().reverse().map((src, index) => (
-                <div key={`right-dup-${index}`} className = "slide">
+                <div key={`right-dup-${index}`} className="slide">
                   <img src={src} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
