@@ -8,11 +8,11 @@ import { FaGithub, FaLinkedin, FaInstagramSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
 const socialLinks = [
-  { id: 1, name: 'Gmail', icon: <SiGmail size={24} className = "text-[#D93025]"/>, url: 'https://github.com/' },
-  { id: 2, name: 'GitHub', icon: <FaGithub size={24} />, url: 'https://github.com/' },
-  { id: 3, name: 'LinkedIn', icon: <FaLinkedin size={24} className = "text-[#0A66C2]"/>, url: 'https://linkedin.com/' },
-  { id: 4, name: 'Twitter', icon: <FaSquareXTwitter size={24} />, url: 'https://twitter.com/' },
-  { id: 5, name: 'Instagram', icon: <FaInstagramSquare size={24} className = "text-[#f61c65]"/>, url: 'https://instagram.com/' }
+  { id: 1, name: 'Gmail', icon: <SiGmail size={24} className = "text-[#D93025]"/>, url: 'mailto:pratyushnayak.14098@gmail.com' },
+  { id: 2, name: 'GitHub', icon: <FaGithub size={24} />, url: 'https://github.com/PratyushNayak04oct' },
+  { id: 3, name: 'LinkedIn', icon: <FaLinkedin size={24} className = "text-[#0A66C2]"/>, url: 'https://www.linkedin.com/in/pratyush-nayak-04oct/' },
+  { id: 4, name: 'Twitter', icon: <FaSquareXTwitter size={24} />, url: 'https://x.com/PratyushNayak04' },
+  { id: 5, name: 'Instagram', icon: <FaInstagramSquare size={24} className = "text-[#f61c65]"/>, url: 'https://www.instagram.com/p.r.a.t.i.k.l.e.o/' }
 ];
 
 const Social = () => {
