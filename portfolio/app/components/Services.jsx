@@ -82,7 +82,7 @@ const Services = () => {
   }, { scope: container });
 
   return (
-    <section id="services" ref={container} className = "w-screen flex items-center justify-center py-20">
+    <section id="services" ref={container} className = "w-screen flex items-center justify-center md:mt-20">
       <div className = "container mx-auto px-4">
         <div className = "flex flex-col items-center justify-center gap-8 md:gap-20">
           <div className = "flex justify-center items-center">

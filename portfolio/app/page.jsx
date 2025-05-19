@@ -337,9 +337,7 @@ function Home() {
         rightOffset = 66;
         leftOffset = 76;
       }
-      
-      // Instead of creating a className string with template literals inside,
-      // use a separate style property for positioning
+
       const positionStyle = isRight 
         ? { right: `-${rightOffset}px` } 
         : { left: `-${leftOffset}px` };
@@ -353,7 +351,7 @@ function Home() {
       blobs.push(
         <div 
           key={i}
-          className="blob absolute"
+          className = "blob absolute"
           style={{ 
             background: gradients[gradientIndex],
             top: `${posY}px`,
