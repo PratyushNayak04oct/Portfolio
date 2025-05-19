@@ -82,7 +82,7 @@ const Services = () => {
   }, { scope: container });
 
   return (
-    <section id = "services" ref={container} className = "w-screen flex items-center justify-center">
+    <section id = "services" ref={container} className = "w-screen flex items-center justify-center mt-20 mb-20">
       <div className = "flex flex-row gap-32">
         <h2 className = "heading-2 text-center mb-12 services-title text-[32px]">
           Services
