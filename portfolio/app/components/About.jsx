@@ -130,7 +130,7 @@ const About = () => {
   }, { scope: container });
 
   return (
-    <section id="about" ref={container} className = "h-screen w-screen flex justify-center items-center">
+    <section id="about" ref={container} className = "w-screen flex justify-center items-center md:mt-32 mt-20">
       <div className = "container px-12">
         <h2 className = "text-center text-[32px]">
           <span className = "heading-2 inline-block">About</span>

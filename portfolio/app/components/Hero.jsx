@@ -151,7 +151,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" ref={container} className = "mt-8 flex items-center w-screen h-screen ">
+    <section id="home" ref={container} className = "mt-44 md:mt-12 flex items-center w-screen h-screen ">
       <div className = "container mx-auto grid md:grid-cols-2 gap-8 items-center">
         <div className = "pl-4 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
@@ -167,7 +167,7 @@ const Hero = () => {
                 <div className = "h-8 overflow-hidden">
                   <span 
                     ref={textRef} 
-                    className = "heading-2 gradient1 inline-block text-[24px]"
+                    className = "heading-2 gradient1 inline-block md:text-[24px] text-[16px]"
                   >
                     {roles[currentRoleIndex]}
                   </span>
@@ -176,13 +176,13 @@ const Hero = () => {
             </div>
           </div>
           
-          <h1 className = "mt-4" id="hero-name">
+          <h1 className = "mt-4 md:text-[96px] text-[64px]" id="hero-name">
             Pratyush<br />
             Nayak
           </h1>
         </div>
         
-        <div className = "spline-model h-120 md:h-96 relative" ref={splineContainerRef}>
+        <div className = "spline-model h-120 md:h-96 relative md:pl-0 pl-12" ref={splineContainerRef}>
           <Suspense fallback={<SplineLoader />}>
             {!splineLoaded && <SplineLoader />}
             <div className = {`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>

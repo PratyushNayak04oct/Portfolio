@@ -73,7 +73,7 @@ const Voices = () => {
   }, { scope: container });
 
   return (
-    <section id="voices" ref={container} className = "w-full py-16 md:py-24">
+    <section id="voices" ref={container} className = "w-full md:mt-20 mt-16">
       <div className = "container mx-auto px-4 md:px-6">
         <h2 className = "text-2xl md:text-3xl lg:text-4xl font-semibold text-center gradient-text mb-12 md:mb-16 lg:mb-20 voices-title">
           <span className = "heading-2 inline-block">Voices Of Trust</span>

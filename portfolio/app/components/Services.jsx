@@ -84,16 +84,13 @@ const Services = () => {
   return (
     <section id="services" ref={container} className = "w-screen flex items-center justify-center py-20">
       <div className = "container mx-auto px-4">
-        {/* Changed to flex-col by default and flex-row for md and up */}
         <div className = "flex flex-col items-center justify-center gap-8 md:gap-20">
-          {/* Title div - centered on mobile, left aligned on larger screens */}
           <div className = "flex justify-center items-center">
             <h2 className = "heading-2 services-title text-[32px] text-center">
               Services
             </h2>
           </div>
-          
-          {/* Services grid - centered on all screen sizes */}
+
           <div className = "w-full max-w-3xl">
             <div className = "grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center md:justify-items-start">
               {services.map((service) => (

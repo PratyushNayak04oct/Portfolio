@@ -153,7 +153,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" ref={container} className = "w-screen h-screen flex items-center justify-center mb-20">
+    <section id="projects" ref={container} className = "w-screen flex items-center justify-center md:mb-20 mb-12 md:mt-20 mt-12">
       <div className = "container flex flex-col items-center justify-center">
         <h2 className = "projects-title text-[32px] text-center mb-12">
           <span className = "heading-2 inline-block">Projects</span>

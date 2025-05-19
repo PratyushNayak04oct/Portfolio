@@ -79,7 +79,7 @@ const Skills = () => {
   }, { scope: container });
 
   return (
-    <section id="skills" ref={container} className = "w-screen h-auto min-h-screen flex items-center justify-center py-16">
+    <section id="skills" ref={container} className = "w-screen h-auto flex items-center justify-center md:mt-20 mt-12">
       <div className = "container mx-auto px-4">
         <h2 className = "text-[32px] text-center gradient-text mb-12 skills-title">
           <span className = "heading-2 inline-block">Skills</span>

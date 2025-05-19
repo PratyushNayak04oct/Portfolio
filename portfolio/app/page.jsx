@@ -271,7 +271,9 @@ function Home() {
     if (documentHeight === 0) return [];
     
     const blobSpacing = 500; // Space between blobs
-    const numberOfBlobs = Math.ceil(documentHeight / blobSpacing);
+    const footerMargin = 200; // Stop generating blobs 100px above the footer
+    const adjustedHeight = documentHeight - footerMargin; // Adjust the height to respect the footer margin
+    const numberOfBlobs = Math.ceil(adjustedHeight / blobSpacing);
     const blobs = [];
     
     const gradients = [
@@ -284,6 +286,10 @@ function Home() {
       const isRight = i % 2 === 0;
       const posX = isRight ? '-right-[264px]' : '-left-[304px]';
       const posY = i * blobSpacing;
+      
+      // Skip this blob if it would be positioned beyond our adjusted height
+      if (posY >= adjustedHeight) continue;
+      
       const gradientIndex = i % gradients.length;
       
       blobs.push(
@@ -302,7 +308,7 @@ function Home() {
   };
 
   return (
-    <div ref={containerRef} className = "bg-black relative">
+    <div ref={containerRef} className = "bg-black relative overflow-x-hidden">
       <div 
         ref={blobsContainerRef} 
         className = "absolute -top-40 left-0 w-full"
@@ -315,9 +321,9 @@ function Home() {
       </div>
 
       <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
-        <div className = "fixed top-0 z-50 items-center">
+        {/* <div className = "fixed top-0 z-50 items-center">
           <Navbar scrollToSection={scrollToSection} />
-        </div>
+        </div> */}
         <Hero />
         <About />
         <Projects />
