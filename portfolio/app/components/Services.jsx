@@ -11,7 +11,7 @@ import {
   Zap,
   Box
 } from 'lucide-react';
-import "../globals.css" ; 
+import "../globals.css"; 
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -82,20 +82,27 @@ const Services = () => {
   }, { scope: container });
 
   return (
-    <section id = "services" ref={container} className = "w-screen flex items-center justify-center mt-20 mb-20">
-      <div className = "flex flex-row gap-32">
-        <h2 className = "heading-2 text-center mb-12 services-title text-[32px]">
-          Services
-        </h2>
-        
-        <div className = "max-w-3xl mx-auto">
-          <div className = "grid grid-cols-1 md:grid-cols-2 gap-6">
-            {services.map((service) => (
-              <div key={service.id} className = "service-item flex items-start space-x-3">
-                {service.icon}
-                <span className = "text-lg text-gray-200">{service.title}</span>
-              </div>
-            ))}
+    <section id="services" ref={container} className = "w-screen flex items-center justify-center py-20">
+      <div className = "container mx-auto px-4">
+        {/* Changed to flex-col by default and flex-row for md and up */}
+        <div className = "flex flex-col items-center justify-center gap-8 md:gap-20">
+          {/* Title div - centered on mobile, left aligned on larger screens */}
+          <div className = "flex justify-center items-center">
+            <h2 className = "heading-2 services-title text-[32px] text-center">
+              Services
+            </h2>
+          </div>
+          
+          {/* Services grid - centered on all screen sizes */}
+          <div className = "w-full max-w-3xl">
+            <div className = "grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center md:justify-items-start">
+              {services.map((service) => (
+                <div key={service.id} className = "service-item flex items-start space-x-3">
+                  {service.icon}
+                  <span className = "text-lg text-gray-200">{service.title}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

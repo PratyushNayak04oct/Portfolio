@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef } from 'react';
@@ -80,14 +79,14 @@ const Skills = () => {
   }, { scope: container });
 
   return (
-    <section id="skills" ref={container} className = "w-screen h-screen flex items-center justify-center">
-      <div className = "container">
+    <section id="skills" ref={container} className = "w-screen h-auto min-h-screen flex items-center justify-center py-16">
+      <div className = "container mx-auto px-4">
         <h2 className = "text-[32px] text-center gradient-text mb-12 skills-title">
-         <span className = "heading-2 inline-block">Skills</span>
+          <span className = "heading-2 inline-block">Skills</span>
         </h2>
         
-        <div className = "px-20">
-          <div className = "grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className = "px-4 md:px-20 max-w-6xl mx-auto">
+          <div className = "grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {skills.map((skill) => (
               <div 
                 key={skill.id} 
