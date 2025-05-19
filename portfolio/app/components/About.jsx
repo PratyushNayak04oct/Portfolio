@@ -155,33 +155,38 @@ const About = () => {
         }
       );
 
-      // Modified slider animation for continuous scrolling
-      const leftTrack = leftSliderRef.current.querySelector(".slides-track");
-      const rightTrack = rightSliderRef.current.querySelector(".slides-track");
-      
-      // Animation for left slider - continuous scroll
-      gsap.to(leftTrack, {
-        y: `-${(leftImageSlides.length - 1) * 100}%`,
-        ease: "none",
+      const slideHeight = 210; // height of each slide
+      const slideMargin = 0; // No margin between slides - completely adjacent
+
+      // Animation for left slider - only starts when scrolled to section
+      const leftSlides = gsap.utils.toArray(".left-slide");
+      gsap.set(leftSlides, { y: (i) => i * (slideHeight + slideMargin) });
+
+      gsap.to(leftSlides, {
+        y: (i) => -((leftSlides.length - 1 - i) * (slideHeight + slideMargin)),
+        ease: "power1.inOut",
         scrollTrigger: {
           trigger: container.current,
           start: "top 70%",
           end: "bottom -50%",
-          scrub: 2,
+          scrub: 6,
           toggleActions: "play none none reverse",
           invalidateOnRefresh: true,
         },
       });
 
-      // Animation for right slider - continuous scroll in opposite direction
-      gsap.to(rightTrack, {
-        y: `-${(rightImageSlides.length - 1) * 100}%`,
-        ease: "none",
+      // Animation for right slider - only starts when scrolled to section
+      const rightSlides = gsap.utils.toArray(".right-slide");
+      gsap.set(rightSlides, { y: (i) => i * (slideHeight + slideMargin) });
+
+      gsap.to(rightSlides, {
+        y: (i) => -((rightSlides.length - 1 - i) * (slideHeight + slideMargin)),
+        ease: "power1.inOut",
         scrollTrigger: {
           trigger: container.current,
           start: "top 70%",
           end: "bottom -50%",
-          scrub: 2,
+          scrub: 6,
           toggleActions: "play none none reverse",
           invalidateOnRefresh: true,
         },
@@ -197,63 +202,65 @@ const About = () => {
     <section
       id="about"
       ref={container}
-      className = "w-full flex justify-center items-center md:mt-32 mt-20"
+      className = "w-screen flex justify-center items-center md:mt-32 mt-20"
     >
-      {/* Custom CSS for continuous slider */}
-      <style jsx>{`
-        .slider-container {
-          position: relative;
-          overflow: hidden;
-          height: 630px;
-          max-height: 630px;
+      {/* Custom CSS for 32px gap and image flush */}
+      <style>{`
+        /* Only apply gap and slider styles on md and up */
+        @media (min-width: 768px) {
+          .about-flex-row {
+            gap: 32px !important;
+          }
         }
-        .slides-track {
-          position: absolute;
-          width: 100%;
-          height: auto;
-          display: flex;
-          flex-direction: column;
+        /* Remove gap on mobile */
+        @media (max-width: 767px) {
+          .about-flex-row {
+            gap: 0 !important;
+          }
         }
-        .slide-item {
-          width: 100%;
-          height: 210px;
-          flex-shrink: 0;
-          line-height: 0;
-          font-size: 0;
+        .slider-container,
+        .slides-wrapper,
+        .left-slide,
+        .right-slide {
+          margin: 0 !important;
+          padding: 0 !important;
         }
-        .slide-item img {
+        .left-slide img,
+        .right-slide img {
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
           display: block;
           width: 100%;
           height: 100%;
-          object-fit: cover;
-          margin: 0;
-          padding: 0;
-          border: none;
-          vertical-align: top;
         }
       `}</style>
-      <div className = "container px-2 mx-auto">
+      <div className = "container px-2">
         <h2 className = "text-center text-[32px] about-title mb-12">
           <span className = "heading-2 inline-block">About</span>
         </h2>
-        <div className = "about-flex-row flex flex-col md:flex-row justify-center items-center md:gap-8">
+        <div className = "about-flex-row flex flex-col md:flex-row justify-center items-center gap-0 md:gap-8">
           {/* Left Slider (hidden on <md) */}
           <div
             ref={leftSliderRef}
-            className = "slider-container hidden md:block md:w-1/3 opacity-0 invisible"
+            className = "slider-container hidden md:block w-1/3 h-[210px] overflow-hidden relative opacity-0 invisible"
             style={{ transition: "opacity 0.5s ease" }}
           >
-            <div className = "slides-track">
+            <div className = "slides-wrapper relative">
               {leftImageSlides.map((src, index) => (
                 <div
                   key={`left-${index}`}
-                  className = "slide-item"
-                  style={{ display: 'block', margin: 0, padding: 0 }}
+                  className = "left-slide h-[210px] w-full relative"
+                  style={{
+                    zIndex: leftImageSlides.length - index,
+                    marginBottom: "0",
+                  }}
                 >
                   <img
                     src={src}
                     alt={`Slide ${index + 1}`}
-                    style={{ display: 'block', margin: 0, padding: 0, border: 0 }}
+                    className = "w-full h-full object-cover rounded-none block"
                   />
                 </div>
               ))}
@@ -275,18 +282,23 @@ const About = () => {
           {/* Right Slider (hidden on <md) */}
           <div
             ref={rightSliderRef}
-            className = "slider-container hidden md:block md:w-1/3 opacity-0 invisible"
+            className = "slider-container hidden md:block w-1/3 h-[210px] overflow-hidden relative opacity-0 invisible"
             style={{ transition: "opacity 0.5s ease" }}
           >
-            <div className = "slides-track">
+            <div className = "slides-wrapper relative">
               {rightImageSlides.map((src, index) => (
                 <div
                   key={`right-${index}`}
-                  className = "slide-item"
+                  className = "right-slide h-[210px] w-full relative"
+                  style={{
+                    zIndex: rightImageSlides.length - index,
+                    marginBottom: "0",
+                  }}
                 >
                   <img
                     src={src}
                     alt={`Slide ${index + 1}`}
+                    className = "w-full h-full object-cover rounded-none block"
                   />
                 </div>
               ))}
