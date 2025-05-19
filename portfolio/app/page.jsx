@@ -29,7 +29,7 @@ function Home() {
   useEffect(() => {
     // Create Lenis instance
     lenisRef.current = new Lenis({
-      duration: 2.4, // Increased duration for slower scrolling (doubled from 1.2)
+      duration: 4, // Increased duration for slower scrolling (doubled from 1.2)
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Ease out expo
       direction: 'vertical', // Vertical scroll
       gestureDirection: 'vertical',
@@ -37,7 +37,7 @@ function Home() {
       smoothTouch: false, // Disable smooth scrolling on touch devices
       touchMultiplier: 1.5, // Reduced touch sensitivity for slower touch scrolling
       lerp: 0.08, // Lower values create more smoothing effect (0.1 is default)
-      wheelMultiplier: 0.7, // Reduced wheel multiplier for slower mouse wheel scrolling
+      wheelMultiplier: 0.7, 
     });
 
     // Connect Lenis to GSAP's ticker for maximum performance
@@ -289,7 +289,7 @@ function Home() {
       blobs.push(
         <div 
           key={i}
-          className={`blob ${posX} w-[600px] h-[600px]`} 
+          className = {`blob ${posX} w-[600px] h-[600px]`} 
           style={{ 
             background: gradients[gradientIndex],
             top: `${posY}px`

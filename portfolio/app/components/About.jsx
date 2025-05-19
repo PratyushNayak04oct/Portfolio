@@ -132,8 +132,8 @@ const About = () => {
   return (
     <section id="about" ref={container} className = "h-screen w-screen flex justify-center items-center">
       <div className = "container mx-auto px-4">
-        <h2 className = "heading-2 text-center text-[32px]">
-          About
+        <h2 className = "text-center text-[32px]">
+          <span className = "heading-2 inline-block">About</span>
         </h2>
         
         <div className = "flex flex-col md:flex-row justify-center items-center gap-12">

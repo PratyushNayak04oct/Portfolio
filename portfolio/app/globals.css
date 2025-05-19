@@ -64,13 +64,6 @@ body {
   -webkit-backdrop-filter: blur(30px);
 }
 
-.gradient1 {
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
 
 #navbar h1{
   font-family: "Sansation", sans-serif;
@@ -162,13 +155,36 @@ nav ul li a:hover{
   background: linear-gradient(
     to right,
     #006DFB 0%,
-    #5E96E8 26%,
-    #00A6FB 45%,
-    #7F01D3 85%,
+    #00A6FB 50%,
     #7F01D3 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text; 
   color: transparent;
+}
+
+.heading-3{
+  font-weight: 900;
+  font-family: "Bricolage Grotesque", sans-serif;
+  background: linear-gradient(
+    to right,
+    #006DFB 0%,
+    #00A6FB 50%,
+    #7F01D3 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; 
+  color: transparent;
+}
+
+#quick-links ul li a{
+  color: gray;
+  transition: 0.25s ease-in-out;
+}
+
+#quick-links ul li a:hover{
+  color: white;
+  transform: translateX(8px);
 }

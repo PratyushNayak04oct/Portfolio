@@ -102,8 +102,8 @@ const Projects = () => {
   return (
     <section id="projects" ref={container} className = "w-screen h-screen">
       <div className = "container mx-auto">
-        <h2 className = "projects-title heading-2 text-[32px] text-center mb-12">
-          Projects
+        <h2 className = "projects-title text-[32px] text-center mb-12">
+          <span className = "heading-2 inline-block">Projects</span>
         </h2>
         
         <div className = "relative max-w-4xl mx-auto">

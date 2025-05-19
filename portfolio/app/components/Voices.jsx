@@ -61,7 +61,7 @@ const Voices = () => {
     <section id="voices" ref={container} className = "w-screen mb-20">
       <div className = "container mx-auto">
         <h2 className = "text-2xl md:text-3xl font-semibold text-center gradient-text mb-16 voices-title">
-          Voices Of Trust
+          <span className = "heading-2 inline-block">Voices Of Trust</span>
         </h2>
         
         <div className = "max-w-4xl mx-auto">
@@ -69,7 +69,7 @@ const Voices = () => {
             {testimonials.map((testimonial, index) => (
               <div 
                 key={testimonial.id} 
-                className={`testimonial ${positions[index]} p-6 rounded-lg glass-effect gradient-border`}
+                className = {`testimonial ${positions[index]} p-6 rounded-lg glass-effect gradient-border`}
               >
                 <p className = "text-gray-300 mb-4">{testimonial.text}</p>
                 <div className = "flex items-center space-x-3">
