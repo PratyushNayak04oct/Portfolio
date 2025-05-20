@@ -27,16 +27,13 @@ function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const lenisRef = useRef(null);
 
-  // Check if device is mobile based on screen width
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    // Initial check
     checkMobile();
 
-    // Listen for resize events
     window.addEventListener("resize", checkMobile);
 
     return () => {
@@ -44,18 +41,18 @@ function Home() {
     };
   }, []);
 
-  // Initialize Lenis for smooth scrolling
+
   useEffect(() => {
-    // Create Lenis instance
+    
     lenisRef.current = new Lenis({
-      duration: 4, // Increased duration for slower scrolling (doubled from 1.2)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Ease out expo
+      duration: 4, 
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       direction: "vertical", // Vertical scroll
       gestureDirection: "vertical",
       smooth: true,
-      smoothTouch: false, // Disable smooth scrolling on touch devices
-      touchMultiplier: 1.5, // Reduced touch sensitivity for slower touch scrolling
-      lerp: 0.08, // Lower values create more smoothing effect (0.1 is default)
+      smoothTouch: false, 
+      touchMultiplier: 1.5, 
+      lerp: 0.08, 
       wheelMultiplier: 0.7,
       wheelEventsTarget: document.documentElement,
     });

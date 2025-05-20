@@ -182,7 +182,7 @@ const Hero = () => {
           </h1>
         </div>
         
-        <div className = "spline-model h-96 relative md:pl-0 pl-12" ref={splineContainerRef}>
+        <div className = "spline-model h-96 relative md:pl-0 pl-20" ref={splineContainerRef}>
           <Suspense fallback={<SplineLoader />}>
             {!splineLoaded && <SplineLoader />}
             <div className = {`w-full h-full transition-opacity duration-500 ${splineLoaded ? 'opacity-100' : 'opacity-0'}`}>
