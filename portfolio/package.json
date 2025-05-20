@@ -12,6 +12,7 @@
     "@gsap/react": "^2.1.2",
     "@splinetool/react-spline": "^4.0.0",
     "@studio-freight/lenis": "^1.0.42",
+    "@vercel/blob": "^1.0.2",
     "formidable": "^3.5.4",
     "gsap": "^3.13.0",
     "lucide-react": "^0.508.0",
