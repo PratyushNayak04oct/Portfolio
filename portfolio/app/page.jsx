@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 
 import Navbar from "./components/Navbar";
-import HomeNavbarFix from "./components/HomeNavbarFix";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
