@@ -313,7 +313,7 @@ function Home() {
     if (documentHeight === 0) return [];
 
     const blobSpacing = 500; // Space between blobs
-    const footerMargin = 200; // Stop generating blobs 100px above the footer
+    const footerMargin = 300; // Stop generating blobs 100px above the footer
     const adjustedHeight = documentHeight - footerMargin; // Adjust the height to respect the footer margin
     const numberOfBlobs = Math.ceil(adjustedHeight / blobSpacing);
     const blobs = [];
