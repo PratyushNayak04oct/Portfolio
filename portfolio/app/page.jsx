@@ -384,7 +384,6 @@ function Home() {
       <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
         <div className = "fixed top-0 z-50">
           <Navbar />
-          <HomeNavbarFix />
         </div>
         <Hero />
         <About />

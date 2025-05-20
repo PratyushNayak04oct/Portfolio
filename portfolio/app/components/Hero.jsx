@@ -3,8 +3,8 @@
 import React, { useRef, useState, Suspense, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
-import { Code, Briefcase, Coffee } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
+import Image from 'next/image';
 
 // Loading component to show while Spline loads
 const SplineLoader = () => (
@@ -156,10 +156,13 @@ const Hero = () => {
         <div className = "pl-16 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
-              <img 
+              <Image 
                 src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
                 alt="Pratyush Nayak" 
                 className = "w-full h-full object-cover"
+                height = {100}
+                width = {100}
+                id = "hero-image"
               />
             </div>
             <div className = "hero-subtitle">
