@@ -92,10 +92,12 @@ const Services = () => {
           </div>
 
           <div className = "w-full max-w-3xl">
-            <div className = "grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center md:justify-items-start">
+            <div className = "grid grid-cols-1 md:grid-cols-2 gap-6 md:justify-items-start justify-items-center mx-8">
               {services.map((service) => (
-                <div key={service.id} className = "service-item flex items-start space-x-3">
-                  {service.icon}
+                <div key={service.id} className = "service-item flex items-start space-x-3 w-full">
+                  <div className = "flex-shrink-0">
+                    {service.icon}
+                  </div>
                   <span className = "text-lg text-gray-200">{service.title}</span>
                 </div>
               ))}
