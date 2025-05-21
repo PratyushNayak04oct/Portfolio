@@ -13,32 +13,43 @@ const projects = [
   {
     id: 1,
     title: 'Portfolio Website',
+    description: 'My personal portfolio showcasing my projects and skills. Built with Next.js, React, and GSAP animations.',
     image: 'https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/proejcts/portfolio-image-3DXoyPFgn8IsUQXY68UhUAomAlCyPx.png',
-    repoUrl: 'https://github.com/PratyushNayak04oct/Portfolio'
+    repoUrl: 'https://github.com/PratyushNayak04oct/Portfolio',
+    liveUrl: 'https://pratyush-nayak.vercel.app/',
+    isLive: true
   },
   {
     id: 2,
     title: 'Bro Science EduServices',
+    description: 'An educational platform offering science courses and resources for students. Features user authentication and course management.',
     image: 'https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/proejcts/bro-science-lTNqgur8W6T3k58UDL0gNBHYo7L1Pr.png',
-    repoUrl: 'https://github.com/PratyushNayak04oct/Bro-Science-Eduservices-v2'
+    repoUrl: 'https://github.com/PratyushNayak04oct/Bro-Science-Eduservices-v2',
+    isLive: false
   },
   {
     id: 3,
     title: 'Campus Exchange',
+    description: 'A marketplace application for college students to buy, sell, and exchange items within their campus community.',
     image: 'https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/proejcts/campus-exchange-EBx89XCGNxuSq2p0r3mdi30R7YSZnR.png',
-    repoUrl: 'https://github.com/Banerjee2021/Campus-Exchange'
+    repoUrl: 'https://github.com/Banerjee2021/Campus-Exchange',
+    isLive: false
   },
   {
     id: 4,
     title: 'Ashelles Public School',
+    description: 'A comprehensive school management system with features for administration, teachers, students, and parents.',
     image: 'https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/proejcts/ashelles-public-school-JwKqGrJkqv33IeNn60sinAvA9OaY3S.png',
-    repoUrl: 'https://github.com/PratyushNayak04oct/Ashelles-Public-School'
+    repoUrl: 'https://github.com/PratyushNayak04oct/Ashelles-Public-School',
+    isLive: false
   },
   {
     id: 5,
     title: 'Enhanced Visual Cryptography Scheme (EVCS)',
+    description: 'An implementation of visual cryptography techniques for secure image encryption and decryption with enhanced visual quality.',
     image: 'https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    repoUrl: 'https://github.com/PratyushNayak04oct/EVCS-APP'
+    repoUrl: 'https://github.com/PratyushNayak04oct/EVCS-APP',
+    isLive: false
   }
 ];
 
@@ -89,7 +100,6 @@ const Projects = () => {
           {projects.map((project) => (
             <div key={project.id} className = "project-card gradient-border rounded-lg p-1">
               <div className = "glass-effect rounded-lg overflow-hidden flex flex-col h-full">
-                {/* Image container with fixed aspect ratio */}
                 <div className = "w-full h-64 overflow-hidden">
                   <img 
                     src={project.image} 
@@ -100,12 +110,27 @@ const Projects = () => {
                 
                 {/* Project info */}
                 <div className = "p-6 flex flex-col flex-grow">
-                  <h3 className = "text-xl font-semibold mb-4">{project.title}</h3>
+                  <h3 className = "text-xl font-semibold mb-2">{project.title}</h3>
+                  <p className = "text-sm text-gray-300 mb-4 flex-grow">{project.description}</p>
                   
                   <div className = "flex flex-wrap gap-4 mt-auto">
-                    <button className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer">
-                      Live Site
-                    </button>
+                    {project.isLive ? (
+                      <a 
+                        href={project.liveUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer"
+                      >
+                        Live Site
+                      </a>
+                    ) : (
+                      <button 
+                        className = "gradient-bg opacity-50 px-6 py-2 rounded-[8px] text-sm font-medium cursor-not-allowed"
+                        disabled
+                      >
+                        Coming Soon
+                      </button>
+                    )}
                     <a 
                       href={project.repoUrl} 
                       target="_blank" 
