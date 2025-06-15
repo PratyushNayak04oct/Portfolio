@@ -303,75 +303,10 @@ function Home() {
 
       ScrollTrigger.refresh();
 
-      // Removed Hero section animations - sections now start with opacity: 1 and y: 0
-      gsap.utils.toArray("section:not(#home)").forEach((section) => {
+      // Optimized section animations - only animate non-projects sections
+      gsap.utils.toArray("section:not(#home):not(#projects)").forEach((section) => {
         gsap.fromTo(
           section,
-          {
-            opacity: 0,
-            y: 50,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 80%",
-              end: "bottom 20%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-
-      const projectCards = gsap.utils.toArray(".project-card");
-      projectCards.forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            x: 100,
-          },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.8,
-            scrollTrigger: {
-              trigger: "#projects",
-              start: "top 60%",
-              end: "bottom 20%",
-              toggleActions: "play none none reverse",
-            },
-            delay: i * 0.2,
-          }
-        );
-      });
-
-      gsap.utils.toArray(".skill-icon").forEach((icon, i) => {
-        gsap.fromTo(
-          icon,
-          {
-            opacity: 0,
-            scale: 0.8,
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            delay: i * 0.1,
-            scrollTrigger: {
-              trigger: "#skills",
-              start: "top 70%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-
-      gsap.utils.toArray(".testimonial").forEach((testimonial, i) => {
-        gsap.fromTo(
-          testimonial,
           {
             opacity: 0,
             y: 30,
@@ -379,20 +314,45 @@ function Home() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            delay: i * 0.15,
+            duration: 0.8,
             scrollTrigger: {
-              trigger: "#voices",
-              start: "top 60%",
-              toggleActions: "play none none reverse",
+              trigger: section,
+              start: "top 80%",
+              once: true, // Only animate once
+              fastScrollEnd: true,
+              preventOverlaps: true
             },
           }
         );
       });
 
-      gsap.utils.toArray(".social-icon").forEach((icon, i) => {
+      // Optimized skills animation
+      gsap.utils.toArray(".skill-icon").forEach((icon, i) => {
         gsap.fromTo(
           icon,
+          {
+            opacity: 0,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            delay: i * 0.05, // Reduced delay for faster animation
+            scrollTrigger: {
+              trigger: "#skills",
+              start: "top 75%",
+              once: true,
+              fastScrollEnd: true
+            },
+          }
+        );
+      });
+
+      // Optimized testimonials animation
+      gsap.utils.toArray(".testimonial").forEach((testimonial, i) => {
+        gsap.fromTo(
+          testimonial,
           {
             opacity: 0,
             y: 20,
@@ -403,14 +363,39 @@ function Home() {
             duration: 0.5,
             delay: i * 0.1,
             scrollTrigger: {
-              trigger: "#social",
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              trigger: "#voices",
+              start: "top 70%",
+              once: true,
+              fastScrollEnd: true
             },
           }
         );
       });
 
+      // Optimized social icons animation
+      gsap.utils.toArray(".social-icon").forEach((icon, i) => {
+        gsap.fromTo(
+          icon,
+          {
+            opacity: 0,
+            y: 15,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            delay: i * 0.08,
+            scrollTrigger: {
+              trigger: "#social",
+              start: "top 80%",
+              once: true,
+              fastScrollEnd: true
+            },
+          }
+        );
+      });
+
+      // Optimized blob scaling
       const updateBlobsScale = () => {
         const blobs = document.querySelectorAll(".blob");
         const scale = window.innerWidth < 768 ? 0.25 : 1;
@@ -476,7 +461,7 @@ function Home() {
       blobs.push(
         <div
           key={i}
-          className = "blob absolute"
+          className = "blob absolute transform-gpu" // Added transform-gpu for hardware acceleration
           style={{
             background: gradients[gradientIndex],
             top: `${posY}px`,

@@ -57,36 +57,44 @@ const Projects = () => {
   const container = useRef();
   
   useGSAP(() => {
-    gsap.fromTo(
-      '.projects-title',
-      { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: container.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
+    // Title animation - simplified
+    gsap.set('.projects-title', { opacity: 0, y: 20 });
     
-    gsap.fromTo(
-      '.project-card',
-      { opacity: 0, y: 50 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        stagger: 0.2,
-        duration: 0.7,
-        scrollTrigger: {
-          trigger: container.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
+    // Project cards - set initial state
+    gsap.set('.project-card', { 
+      opacity: 0, 
+      y: 30,
+      scale: 0.95
+    });
+    
+    // Create timeline for sequential animations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container.current,
+        start: 'top 75%',
+        once: true, // Only play once - no reverse animation
+        fastScrollEnd: true, // Optimize for fast scrolling
+        preventOverlaps: true
       }
-    );
+    });
+    
+    // Animate title first
+    tl.to('.projects-title', {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    })
+    // Then animate cards sequentially
+    .to('.project-card', {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.5,
+      stagger: 0.15, // Sequential reveal with 0.15s delay between each
+      ease: 'power2.out'
+    }, '-=0.2'); // Start slightly before title animation completes
+    
   }, { scope: container });
 
   return (
@@ -98,13 +106,17 @@ const Projects = () => {
         
         <div className = "grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4">
           {projects.map((project) => (
-            <div key={project.id} className = "project-card gradient-border rounded-lg p-1">
+            <div 
+              key={project.id} 
+              className = "project-card gradient-border rounded-lg p-1 transform-gpu" // Added transform-gpu for hardware acceleration
+            >
               <div className = "glass-effect rounded-lg overflow-hidden flex flex-col h-full">
                 <div className = "w-full h-64 overflow-hidden">
                   <img 
                     src={project.image} 
                     alt={project.title} 
                     className = "w-full h-full object-contain bg-gray-900"
+                    loading="lazy" // Lazy load images for better performance
                   />
                 </div>
                 
@@ -119,7 +131,7 @@ const Projects = () => {
                         href={project.liveUrl} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer"
+                        className = "gradient-bg px-6 py-2 rounded-[8px] text-sm font-medium cursor-pointer transition-transform duration-200 hover:scale-105"
                       >
                         Live Site
                       </a>
@@ -135,7 +147,7 @@ const Projects = () => {
                       href={project.repoUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className = "github-btn px-6 py-2 rounded-[8px] text-sm font-medium border border-gray-600 cursor-pointer relative overflow-hidden group inline-flex"
+                      className = "github-btn px-6 py-2 rounded-[8px] text-sm font-medium border border-gray-600 cursor-pointer relative overflow-hidden group inline-flex transition-transform duration-200 hover:scale-105"
                     >
                       <span className = "absolute inset-0 w-0 bg-gradient-to-r from-[#006DFB] via-[#00A6FB] to-[#7F01D3] transition-all duration-300 ease-out group-hover:w-full"></span>
                       <span className = "flex items-center justify-center relative z-10 group-hover:text-white transition-colors duration-300">
