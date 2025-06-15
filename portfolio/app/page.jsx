@@ -24,25 +24,25 @@ const LoadingScreen = ({ onLoadingComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Simulate loading progress
+    // Simulate loading progress with slower progression
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
-          // Delay before hiding to show 100% completion
+          // Extended delay before hiding to show 100% completion longer
           setTimeout(() => {
             setIsVisible(false);
             setTimeout(() => {
               onLoadingComplete();
-            }, 500); // Wait for fade out animation
-          }, 800);
+            }, 800); // Wait for fade out animation
+          }, 2000); // Increased from 800ms to 2000ms (2 seconds)
           return 100;
         }
-        // Simulate realistic loading with some randomness
-        const increment = Math.random() * 15 + 5;
+        // Slower, more realistic loading with smaller increments
+        const increment = Math.random() * 8 + 3; // Reduced from 15+5 to 8+3
         return Math.min(prev + increment, 100);
       });
-    }, 200);
+    }, 300); // Increased interval from 200ms to 300ms
 
     return () => clearInterval(interval);
   }, [onLoadingComplete]);
@@ -119,10 +119,11 @@ const LoadingScreen = ({ onLoadingComplete }) => {
             
             {/* Status text */}
             <div className = "mt-4 text-xs font-mono text-gray-500 text-center">
-              {progress < 30 && "LOADING CORE MODULES..."}
-              {progress >= 30 && progress < 60 && "INITIALIZING COMPONENTS..."}
-              {progress >= 60 && progress < 90 && "OPTIMIZING PERFORMANCE..."}
-              {progress >= 90 && "FINALIZING SETUP..."}
+              {progress < 25 && "LOADING CORE MODULES..."}
+              {progress >= 25 && progress < 50 && "INITIALIZING COMPONENTS..."}
+              {progress >= 50 && progress < 75 && "OPTIMIZING PERFORMANCE..."}
+              {progress >= 75 && progress < 95 && "FINALIZING SETUP..."}
+              {progress >= 95 && "PREPARING INTERFACE..."}
             </div>
           </div>
 
@@ -302,6 +303,7 @@ function Home() {
 
       ScrollTrigger.refresh();
 
+      // Removed Hero section animations - sections now start with opacity: 1 and y: 0
       gsap.utils.toArray("section:not(#home)").forEach((section) => {
         gsap.fromTo(
           section,

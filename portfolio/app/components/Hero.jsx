@@ -88,38 +88,13 @@ const Hero = () => {
   }, []); // Empty dependency array since roles is memoized
 
   useGSAP(() => {
-    const tl = gsap.timeline();
-    
-    // Initial animations for hero elements
-    tl.fromTo(
-      '.hero-image',
-      { opacity: 0, x: -50 },
-      { opacity: 1, x: 0, duration: 1, ease: 'power2.out' }
-    )
-    .fromTo(
-      '.hero-title',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-      '-=0.5'
-    )
-    .fromTo(
-      '.hero-subtitle',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-      '-=0.5'
-    )
-    .fromTo(
-      '.hero-role',
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: 'power2.out' },
-      '-=0.3'
-    )
-    .fromTo(
-      '.spline-model',
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' },
-      '-=1'
-    );
+    // Removed all initial animations - elements now appear immediately
+    // Set all elements to their final state immediately
+    gsap.set('.hero-image', { opacity: 1, x: 0 });
+    gsap.set('.hero-title', { opacity: 1, y: 0 });
+    gsap.set('.hero-subtitle', { opacity: 1, y: 0 });
+    gsap.set('.hero-role', { opacity: 1, y: 0 });
+    gsap.set('.spline-model', { opacity: 1, scale: 1 });
     
   }, { scope: container });
 
