@@ -18,13 +18,139 @@ import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Loading Screen Component
+const LoadingScreen = ({ onLoadingComplete }) => {
+  const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading progress
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          // Delay before hiding to show 100% completion
+          setTimeout(() => {
+            setIsVisible(false);
+            setTimeout(() => {
+              onLoadingComplete();
+            }, 500); // Wait for fade out animation
+          }, 800);
+          return 100;
+        }
+        // Simulate realistic loading with some randomness
+        const increment = Math.random() * 15 + 5;
+        return Math.min(prev + increment, 100);
+      });
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, [onLoadingComplete]);
+
+  if (!isVisible) return null;
+
+  return (
+    <>
+      <div className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-500 ${!isVisible ? 'opacity-0' : 'opacity-100'}`}>
+        {/* Animated background grid */}
+        <div className = "absolute inset-0 opacity-20">
+          <div className = "absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 109, 251, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 109, 251, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+            animation: 'gridMove 10s linear infinite'
+          }}></div>
+        </div>
+
+        {/* Glowing orbs */}
+        <div className = "absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+        <div className = "absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-500 rounded-full opacity-20 blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className = "absolute top-1/3 right-1/3 w-20 h-20 bg-cyan-500 rounded-full opacity-20 blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+
+        {/* Main content */}
+        <div className = "relative z-10 text-center px-4">
+          {/* Main heading with gradient */}
+          <h1 className = "text-4xl md:text-6xl lg:text-7xl font-black mb-8 tracking-tight" style={{
+            fontFamily: 'Raleway, sans-serif',
+            background: 'linear-gradient(to right, #006DFB 0%, #5E96E8 26%, #00A6FB 45%, #7F01D3 85%, #7F01D3 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+            textShadow: '0 0 30px rgba(0, 109, 251, 0.5)'
+          }}>
+            PRATYUSH NAYAK
+          </h1>
+
+          {/* Loading text with blinking animation */}
+          <div className = "flex items-center justify-center mb-12 text-xl md:text-2xl text-gray-300">
+            <span className = "mr-2 font-mono loading-text">
+              LOADING
+            </span>
+            <div className = "flex space-x-1">
+              <span className = "inline-block w-2 h-2 bg-white rounded-full dot-1"></span>
+              <span className = "inline-block w-2 h-2 bg-white rounded-full dot-2"></span>
+              <span className = "inline-block w-2 h-2 bg-white rounded-full dot-3"></span>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className = "w-full max-w-md mx-auto">
+            <div className = "flex justify-between items-center mb-2">
+              <span className = "text-sm font-mono text-gray-400">INITIALIZING SYSTEM</span>
+              <span className = "text-sm font-mono text-gray-400">{Math.round(progress)}%</span>
+            </div>
+            
+            {/* Progress bar container */}
+            <div className = "relative w-full h-2 bg-gray-800 rounded-full overflow-hidden border border-gray-700">
+              {/* Animated background */}
+              <div className = "absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 shimmer"></div>
+              
+              {/* Progress fill */}
+              <div 
+                className = "h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500 rounded-full transition-all duration-300 ease-out relative overflow-hidden"
+                style={{ width: `${progress}%` }}
+              >
+                {/* Glowing effect */}
+                <div className = "absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 progress-glow"></div>
+              </div>
+            </div>
+            
+            {/* Status text */}
+            <div className = "mt-4 text-xs font-mono text-gray-500 text-center">
+              {progress < 30 && "LOADING CORE MODULES..."}
+              {progress >= 30 && progress < 60 && "INITIALIZING COMPONENTS..."}
+              {progress >= 60 && progress < 90 && "OPTIMIZING PERFORMANCE..."}
+              {progress >= 90 && "FINALIZING SETUP..."}
+            </div>
+          </div>
+
+          {/* Circuit-like decorative elements */}
+          <div className = "absolute -top-20 -left-20 w-40 h-40 opacity-20">
+            <div className = "w-full h-full border border-blue-500 rounded-lg rotate-45 rotating-slow"></div>
+          </div>
+          <div className = "absolute -bottom-20 -right-20 w-32 h-32 opacity-20">
+            <div className = "w-full h-full border border-purple-500 rounded-lg rotate-45 rotating-reverse"></div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 function Home() {
   const containerRef = useRef();
   const blobsContainerRef = useRef();
   const footerRef = useRef();
   const [documentHeight, setDocumentHeight] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const lenisRef = useRef(null);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const checkMobile = () => {
@@ -40,13 +166,14 @@ function Home() {
     };
   }, []);
 
-
   useEffect(() => {
+    // Only initialize Lenis after loading is complete
+    if (isLoading) return;
     
     lenisRef.current = new Lenis({
       duration: 4, 
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-      direction: "vertical", // Vertical scroll
+      direction: "vertical",
       gestureDirection: "vertical",
       smooth: true,
       smoothTouch: false, 
@@ -85,15 +212,18 @@ function Home() {
 
     return () => {
       // Clean up
-      lenisRef.current.destroy();
-      gsap.ticker.remove(lenisRef.current.raf);
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        gsap.ticker.remove(lenisRef.current.raf);
+      }
     };
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
+    if (isLoading) return;
+
     const updateDocumentHeight = () => {
       if (footerRef.current) {
-        // Get the bottom position of the footer
         const footerRect = footerRef.current.getBoundingClientRect();
         const footerBottom = footerRect.bottom + window.scrollY;
         setDocumentHeight(footerBottom);
@@ -110,9 +240,11 @@ function Home() {
       window.removeEventListener("resize", updateDocumentHeight);
       clearTimeout(timer);
     };
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
+    if (isLoading) return;
+
     const handleMouseMove = (e) => {
       const { clientX, clientY } = e;
       const moveX = (clientX - window.innerWidth / 2) * 0.12;
@@ -126,7 +258,7 @@ function Home() {
         gsap.to(blob, {
           x: moveX * xOffset,
           y: moveY * yOffset,
-          duration: 0.6, // Decreased from 1 to 0.6 for faster response
+          duration: 0.6,
           ease: "power2.out",
         });
       });
@@ -134,33 +266,30 @@ function Home() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [isLoading]);
 
-  // Add scroll synchronization for blobs
   useEffect(() => {
-    if (!blobsContainerRef.current) return;
+    if (isLoading || !blobsContainerRef.current) return;
 
-    // This effect is crucial for the blobs to follow scroll
     gsap.to(blobsContainerRef.current, {
-      y: () => -window.scrollY * 0.8, // The blobs move at 80% of scroll speed for a parallax effect
+      y: () => -window.scrollY * 0.8,
       ease: "none",
       scrollTrigger: {
         start: 0,
         end: "max",
         invalidateOnRefresh: true,
-        scrub: 0.1, // Makes the animation smooth
+        scrub: 0.1,
       },
     });
-  }, []);
+  }, [isLoading]);
 
-  // Add section scroll navigation function
   const scrollToSection = (sectionId) => {
     if (lenisRef.current) {
       const section = document.getElementById(sectionId);
       if (section) {
         lenisRef.current.scrollTo(section, {
-          offset: -80, // Offset to account for fixed navbar
-          duration: 2.4, // Increased duration to match main Lenis config
+          offset: -80,
+          duration: 2.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       }
@@ -169,10 +298,10 @@ function Home() {
 
   useGSAP(
     () => {
-      // Refresh ScrollTrigger after Lenis is initialized
+      if (isLoading) return;
+
       ScrollTrigger.refresh();
 
-      // Animate sections - but exclude the hero section to avoid interference
       gsap.utils.toArray("section:not(#home)").forEach((section) => {
         gsap.fromTo(
           section,
@@ -194,7 +323,6 @@ function Home() {
         );
       });
 
-      // Project cards animation
       const projectCards = gsap.utils.toArray(".project-card");
       projectCards.forEach((card, i) => {
         gsap.fromTo(
@@ -218,7 +346,6 @@ function Home() {
         );
       });
 
-      // Skill icons animation
       gsap.utils.toArray(".skill-icon").forEach((icon, i) => {
         gsap.fromTo(
           icon,
@@ -240,7 +367,6 @@ function Home() {
         );
       });
 
-      // Testimonials animation
       gsap.utils.toArray(".testimonial").forEach((testimonial, i) => {
         gsap.fromTo(
           testimonial,
@@ -283,7 +409,6 @@ function Home() {
         );
       });
 
-      // Update blobs scale based on screen size
       const updateBlobsScale = () => {
         const blobs = document.querySelectorAll(".blob");
         const scale = window.innerWidth < 768 ? 0.25 : 1;
@@ -297,24 +422,22 @@ function Home() {
         });
       };
 
-      // Initial update and listen for resize
       updateBlobsScale();
       window.addEventListener("resize", updateBlobsScale);
 
-      // Clean up
       return () => {
         window.removeEventListener("resize", updateBlobsScale);
       };
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [isLoading] }
   );
 
   const generateBlobs = () => {
     if (documentHeight === 0) return [];
 
-    const blobSpacing = 500; // Space between blobs
-    const footerMargin = 300; // Stop generating blobs 100px above the footer
-    const adjustedHeight = documentHeight - footerMargin; // Adjust the height to respect the footer margin
+    const blobSpacing = 500;
+    const footerMargin = 300;
+    const adjustedHeight = documentHeight - footerMargin;
     const numberOfBlobs = Math.ceil(adjustedHeight / blobSpacing);
     const blobs = [];
 
@@ -357,8 +480,8 @@ function Home() {
             top: `${posY}px`,
             width: `${blobWidth}px`,
             height: `${blobHeight}px`,
-            pointerEvents: "none", // Make blobs non-interactive
-            ...positionStyle, // Apply left or right positioning
+            pointerEvents: "none",
+            ...positionStyle,
           }}
         ></div>
       );
@@ -369,32 +492,39 @@ function Home() {
 
   return (
     <div ref={containerRef} className = "bg-black relative overflow-x-hidden">
-      {/* Fixed Navbar - Outside of scrollable content */}
-      <Navbar />
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       
-      <div
-        ref={blobsContainerRef}
-        className = "absolute -top-40 left-0 w-full pointer-events-none"
-        style={{
-          zIndex: 1,
-          height: documentHeight > 0 ? `${documentHeight}px` : "100%",
-        }}
-      >
-        {generateBlobs()}
-      </div>
+      {/* Main Content - Only render when not loading */}
+      {!isLoading && (
+        <>
+          <Navbar />
+          
+          <div
+            ref={blobsContainerRef}
+            className = "absolute -top-40 left-0 w-full pointer-events-none"
+            style={{
+              zIndex: 1,
+              height: documentHeight > 0 ? `${documentHeight}px` : "100%",
+            }}
+          >
+            {generateBlobs()}
+          </div>
 
-      <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
-        <Hero />
-        <About />
-        <Projects />
-        <Services />
-        <Skills />
-        <Voices />
-        <Social />
-        <div ref={footerRef}>
-          <Footer />
-        </div>
-      </div>
+          <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
+            <Hero />
+            <About />
+            <Projects />
+            <Services />
+            <Skills />
+            <Voices />
+            <Social />
+            <div ref={footerRef}>
+              <Footer />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

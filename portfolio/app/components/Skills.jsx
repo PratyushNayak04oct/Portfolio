@@ -68,7 +68,7 @@ const Skills = () => {
         x: 0, 
         stagger: 0.3,
         duration: 0.7,
-        delay: 1.5,
+        delay: 1,
         scrollTrigger: {
           trigger: container.current,
           start: 'top 70%',
