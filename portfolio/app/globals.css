@@ -119,8 +119,9 @@ nav ul li a:hover{
 }
 
 #hero-name{ 
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: bolder;
+  font-family: "Raleway", sans-serif;
+  font-weight: 900;
+  font-style: normal;
 }
 
 .heading-2{

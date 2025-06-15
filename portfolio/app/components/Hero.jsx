@@ -180,8 +180,8 @@ const Hero = () => {
           </div>
           
           <h1 className = "md:text-[96px] text-[64px]" id="hero-name">
-            Pratyush<br />
-            Nayak
+            PRATYUSH<br />
+            NAYAK
           </h1>
         </div>
         
