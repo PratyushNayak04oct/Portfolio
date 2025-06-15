@@ -68,7 +68,7 @@ const Hero = () => {
       });
     };
     
-    // Initial fade in
+    // Initial fade in - Set initial visibility
     if (textRef.current) {
       gsap.set(textRef.current, { opacity: 1, y: 0 });
     }
@@ -161,24 +161,25 @@ const Hero = () => {
   return (
     <section id="home" ref={container} className = "mt-36 md:mt-12 flex items-center min-h-screen">
       <div className = "container mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className = "pl-16 md:pl-28">
+        <div className = "pl-6 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
               <img 
                 src="https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/hero/hero-image-vm2Z9bcNnYef6yRzFfdFFOu7dTnooC.jpg" 
                 alt="Pratyush Nayak" 
                 className = "w-full h-full object-cover"
-                height = {100}
-                width = {100}
-                id = "hero-image"
+                height={100}
+                width={100}
+                id="hero-image"
               />
             </div>
             <div className = "hero-subtitle">
               <div className = "flex items-center">
-                <div className = "h-8 overflow-hidden relative">
+                <div className = "h-8 relative flex items-center">
                   <span 
                     ref={textRef} 
-                    className = "heading-2 gradient1 inline-block md:text-[24px] text-[16px] absolute top-0 left-0 whitespace-nowrap"
+                    className = "text-lg md:text-2xl font-semibold gradient1 whitespace-nowrap hero-role"
+                    style={{ minWidth: '200px' }}
                   >
                     {roles[currentRoleIndex]}
                   </span>
@@ -187,7 +188,7 @@ const Hero = () => {
             </div>
           </div>
           
-          <h1 className = "md:text-[96px] text-[64px]" id="hero-name">
+          <h1 className = "md:text-[96px] text-[64px] font-bold text-white hero-title" id="hero-name">
             PRATYUSH<br />
             NAYAK
           </h1>

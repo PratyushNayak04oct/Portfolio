@@ -86,10 +86,10 @@ const Navbar = () => {
       }}
     >
       <div className = "w-[80vw] max-w-7xl">
-        <div className={`flex flex-row items-center h-[10vh] w-full border-2 rounded-[16px] backdrop-blur-sm justify-between transition-all duration-300 px-4 ${
+        <div className = {`flex flex-row items-center h-[10vh] w-full border-2 rounded-[16px] backdrop-blur-2xl justify-between transition-all duration-300 px-4 ${
           isScrolled 
-            ? 'bg-[#000000e6] border-[#888888] shadow-lg' 
-            : 'bg-[#000000e6] border-[#666666]'
+            ? 'bg-[#000000a2] border-[#888888] shadow-lg' 
+            : 'bg-[#000000a2] border-[#666666]'
         }`}>
           <Link href="/">
             <h1 className = "gradient1 text-[20px] font-[700]">Pratyush Nayak</h1>
