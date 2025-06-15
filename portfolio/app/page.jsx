@@ -172,8 +172,8 @@ function Home() {
       // Refresh ScrollTrigger after Lenis is initialized
       ScrollTrigger.refresh();
 
-      // Animate sections
-      gsap.utils.toArray("section").forEach((section) => {
+      // Animate sections - but exclude the hero section to avoid interference
+      gsap.utils.toArray("section:not(#home)").forEach((section) => {
         gsap.fromTo(
           section,
           {
@@ -369,6 +369,9 @@ function Home() {
 
   return (
     <div ref={containerRef} className = "bg-black relative overflow-x-hidden">
+      {/* Fixed Navbar - Outside of scrollable content */}
+      <Navbar />
+      
       <div
         ref={blobsContainerRef}
         className = "absolute -top-40 left-0 w-full pointer-events-none"
@@ -381,9 +384,6 @@ function Home() {
       </div>
 
       <div className = "relative z-10 flex flex-col backdrop-blur-2xl">
-        <div className = "fixed top-0 z-50">
-          <Navbar />
-        </div>
         <Hero />
         <About />
         <Projects />

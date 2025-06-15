@@ -23,15 +23,70 @@ const Hero = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  const roles = [
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  
+  // Define roles outside of useEffect to avoid dependency issues
+  const roles = React.useMemo(() => [
     "Web Developer", 
     "UI/UX Designer", 
     "SEO Optimization", 
     "Custom Web Application", 
     "3D Model Designer"
-  ];
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  ], []);
   
+  // Fixed role animation effect
+  useEffect(() => {
+    let intervalId;
+    let timeoutId;
+    
+    const animateRoleChange = () => {
+      if (!textRef.current) return;
+      
+      // Kill any existing animations
+      gsap.killTweensOf(textRef.current);
+      
+      // Create timeline for smooth transition
+      const tl = gsap.timeline();
+      
+      // Fade out current text
+      tl.to(textRef.current, {
+        opacity: 0,
+        y: -10,
+        duration: 0.3,
+        ease: "power2.in"
+      })
+      // Change the text content and fade in
+      .call(() => {
+        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+      })
+      .set(textRef.current, { y: 10 }) // Reset position for fade in
+      .to(textRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    };
+    
+    // Initial fade in
+    if (textRef.current) {
+      gsap.set(textRef.current, { opacity: 1, y: 0 });
+    }
+    
+    // Start the interval after initial delay
+    timeoutId = setTimeout(() => {
+      intervalId = setInterval(animateRoleChange, 2500); // Change every 2.5 seconds
+    }, 2000); // Wait 2 seconds before starting
+    
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+      if (timeoutId) clearTimeout(timeoutId);
+      if (textRef.current) {
+        gsap.killTweensOf(textRef.current);
+      }
+    };
+  }, []); // Empty dependency array since roles is memoized
+
   useGSAP(() => {
     const tl = gsap.timeline();
     
@@ -65,53 +120,6 @@ const Hero = () => {
       { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' },
       '-=1'
     );
-    
-    // Create a more consistent text animation with fixed timing
-    const animateRoleText = () => {
-      // Clear any existing animations on the text element
-      gsap.killTweensOf(textRef.current);
-      
-      const roleTl = gsap.timeline({
-        onComplete: () => {
-          // Update to the next role when animation completes
-          setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-          // After a short delay, animate the next role
-          setTimeout(animateRoleText, 100);
-        }
-      });
-      
-      roleTl
-        .fromTo(
-          textRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-        )
-        .to(
-          textRef.current,
-          { 
-            y: 0, 
-            opacity: 1, 
-            duration: 1, // Show text for 1.2 seconds (faster)
-            ease: "none" 
-          }
-        )
-        .to(
-          textRef.current,
-          { 
-            y: -20, 
-            opacity: 0, 
-            duration: 0.3, 
-            ease: "power2.in" 
-          }
-        );
-    };
-    
-    // Start the animation sequence after the initial animations
-    setTimeout(animateRoleText, 1000);
-    
-    return () => {
-      gsap.killTweensOf(textRef.current);
-    };
     
   }, { scope: container });
 
@@ -167,10 +175,10 @@ const Hero = () => {
             </div>
             <div className = "hero-subtitle">
               <div className = "flex items-center">
-                <div className = "h-8 overflow-hidden">
+                <div className = "h-8 overflow-hidden relative">
                   <span 
                     ref={textRef} 
-                    className = "heading-2 gradient1 inline-block md:text-[24px] text-[16px]"
+                    className = "heading-2 gradient1 inline-block md:text-[24px] text-[16px] absolute top-0 left-0 whitespace-nowrap"
                   >
                     {roles[currentRoleIndex]}
                   </span>
