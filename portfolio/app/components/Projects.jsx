@@ -25,8 +25,7 @@ const projects = [
     description: 'An educational platform offering science courses and resources for students. Features user authentication and course management.',
     image: 'https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/proejcts/bro-science-lTNqgur8W6T3k58UDL0gNBHYo7L1Pr.png',
     repoUrl: 'https://github.com/PratyushNayak04oct/Bro-Science-Eduservices-v2',
-    liveUrl: 'https://bro-science-eduservices.vercel.app/',
-    isLive: true
+    isLive: false
   },
   {
     id: 3,
