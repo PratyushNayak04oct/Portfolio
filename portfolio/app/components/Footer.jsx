@@ -8,7 +8,7 @@ const Footer = () => {
     <footer id="contact" className = "border-t border-gray-800 w-[100%]">
       <div className = "flex flex-col items-center justify-center">
         <h2 className = "text-[32px] font-bold text-center mt-12 mb-12">
-          <span className = "heading-2 inline-block">Thank You for visiting</span>
+          <span className = "heading-2 inline-block">Thank You For Visiting !</span>
         </h2>
         
         <div className = "grid md:grid-cols-3 gap-10 max-w-4xl mx-auto">

@@ -292,7 +292,7 @@ const About = () => {
           {/* Content */}
           <div className = "about-content text-center w-full md:w-1/3 flex items-center justify-center opacity-0 px-6 md:px-2 py-4">
             <p className = "text-xl leading-relaxed text-gray-300">
-              Hello I am, <span className = "heading-2 inline-block md:text-[24px] text-[16px] font-semibold">Pratyush Nayak</span> and I provide you with the services of
+              Hello I am, <span className = "heading-2 inline-block md:text-[28px] text-[20px] font-semibold">Pratyush Nayak</span> and I provide you with the services of
               web designing and web development. I specialize in creating
               beautiful, functional websites that help businesses and
               individuals achieve their online goals. With expertise in modern
