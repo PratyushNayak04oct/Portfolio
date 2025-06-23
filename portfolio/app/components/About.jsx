@@ -133,11 +133,10 @@ const About = () => {
       );
 
       // Create continuous sliding effect
-      // First, duplicate the slides to create the continuous effect
       const leftTrack = leftSliderRef.current.querySelector(".slides-track");
       const rightTrack = rightSliderRef.current.querySelector(".slides-track");
       
-      // Animation for left slider using a continual loop
+      // Left slider animation: moves up when scrolling down (bottom to top)
       gsap.to(leftTrack, {
         y: `-50%`,  // Move up by 50% of the track's height
         ease: "none",
@@ -145,22 +144,23 @@ const About = () => {
           trigger: container.current,
           start: "top 70%",
           end: "bottom -50%",
-          scrub: 2,
+          scrub: 0.3, // Much faster animation - reduced from 1 to 0.3
           invalidateOnRefresh: true,
         },
       });
 
-      // Animation for right slider using a continual loop (opposite direction)
+      // Right slider animation: moves down when scrolling down (top to bottom)
+      // Starting from -50% and moving to 0% creates opposite direction
       gsap.fromTo(rightTrack, 
-        { y: `0%` },  // Start at bottom position
+        { y: `-50%` },  // Start at top position (moved up)
         {
-          y: `-50%`,  // Move up by 50% of the track's height
+          y: `0%`,  // Move down to original position
           ease: "none",
           scrollTrigger: {
             trigger: container.current,
             start: "top 70%",
             end: "bottom -50%",
-            scrub: 2,
+            scrub: 0.3, // Much faster animation - reduced from 1 to 0.3
             invalidateOnRefresh: true,
           },
         }
@@ -196,7 +196,7 @@ const About = () => {
         .slider-container {
           position: relative;
           overflow: hidden;
-          height: 400px;
+          height: 280px; /* Reduced from 400px to 280px */
         }
         
         .slides-track {
@@ -205,17 +205,17 @@ const About = () => {
           left: 0;
           width: 100%;
           /* Add extra height to account for gaps */
-          height: calc(200% + 80px); /* 4 slides * 20px gap = 80px extra */
+          height: calc(200% + 40px); /* 4 slides * 10px gap = 40px extra */
           transition: none;
         }
         
         .slide {
-          height: 400px;
+          height: 280px; /* Reduced from 400px to 280px */
           width: 100%;
           display: block;
           margin: 0;
           padding: 0;
-          margin-bottom: 20px; /* Add gap between slides */
+          margin-bottom: 10px; /* Reduced gap from 20px to 10px */
           position: relative;
           border-radius: 20px;
           overflow: hidden;
