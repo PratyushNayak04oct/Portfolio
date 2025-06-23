@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
+import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -112,12 +113,15 @@ const Projects = () => {
               className = "project-card gradient-border rounded-lg p-1 transform-gpu" // Added transform-gpu for hardware acceleration
             >
               <div className = "glass-effect rounded-lg overflow-hidden flex flex-col h-full">
-                <div className = "w-full h-64 overflow-hidden">
-                  <img 
+                <div className = "w-full h-64 overflow-hidden relative bg-gray-900">
+                  <Image 
                     src={project.image} 
                     alt={project.title} 
-                    className = "w-full h-full object-contain bg-gray-900"
-                    loading="lazy" // Lazy load images for better performance
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    style={{ objectFit: 'contain' }}
+                    className="transition-transform duration-300 hover:scale-105"
+                    priority={project.id <= 3} // Prioritize first 3 images
                   />
                 </div>
                 

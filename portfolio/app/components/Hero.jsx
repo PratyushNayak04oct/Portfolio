@@ -139,7 +139,7 @@ const Hero = () => {
         <div className = "pl-6 md:pl-28">
           <div className = "flex items-center space-x-4 hero-image">
             <div className = "w-16 h-16 rounded-full overflow-hidden gradient-border">
-              <img 
+              <Image 
                 src="https://k6nwq7ukojmfdzo6.public.blob.vercel-storage.com/hero/hero-image-vm2Z9bcNnYef6yRzFfdFFOu7dTnooC.jpg" 
                 alt="Pratyush Nayak" 
                 className = "w-full h-full object-cover"

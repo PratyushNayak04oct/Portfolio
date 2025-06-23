@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -43,37 +44,13 @@ const About = () => {
       }
     }
 
-    const leftImgs = leftSliderRef.current?.querySelectorAll("img") || [];
-    const rightImgs = rightSliderRef.current?.querySelectorAll("img") || [];
+    // For Next.js Image components, we'll use a different approach
+    // Set a timeout to ensure images have had time to load
+    const timer = setTimeout(() => {
+      setImagesLoaded(true);
+    }, 1000);
 
-    leftImgs.forEach((img) => {
-      if (img.complete) {
-        onImageLoad();
-      } else {
-        img.addEventListener("load", onImageLoad);
-        img.addEventListener("error", onImageLoad);
-      }
-    });
-
-    rightImgs.forEach((img) => {
-      if (img.complete) {
-        onImageLoad();
-      } else {
-        img.addEventListener("load", onImageLoad);
-        img.addEventListener("error", onImageLoad);
-      }
-    });
-
-    return () => {
-      leftImgs.forEach((img) => {
-        img.removeEventListener("load", onImageLoad);
-        img.removeEventListener("error", onImageLoad);
-      });
-      rightImgs.forEach((img) => {
-        img.removeEventListener("load", onImageLoad);
-        img.removeEventListener("error", onImageLoad);
-      });
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   // GSAP Animations
@@ -239,18 +216,9 @@ const About = () => {
           margin: 0;
           padding: 0;
           margin-bottom: 20px; /* Add gap between slides */
-        }
-        
-        .slide img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          margin: 0;
-          padding: 0;
-          border: none;
-          box-shadow: none;
+          position: relative;
           border-radius: 20px;
+          overflow: hidden;
         }
 
         /* Prevent horizontal scrollbar */
@@ -277,13 +245,26 @@ const About = () => {
               {/* Original slides */}
               {leftImageSlides.map((src, index) => (
                 <div key={`left-${index}`} className = "slide">
-                  <img src={src} alt={`Slide ${index + 1}`} />
+                  <Image
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                    priority={index < 2} // Prioritize first 2 images for faster loading
+                  />
                 </div>
               ))}
               {/* Duplicate slides for continuous effect */}
               {leftImageSlides.map((src, index) => (
                 <div key={`left-dup-${index}`} className = "slide">
-                  <img src={src} alt={`Slide ${index + 1}`} />
+                  <Image
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
               ))}
             </div>
@@ -310,13 +291,26 @@ const About = () => {
               {/* Display slides in reverse order for right slider */}
               {rightImageSlides.slice().reverse().map((src, index) => (
                 <div key={`right-${index}`} className = "slide">
-                  <img src={src} alt={`Slide ${index + 1}`} />
+                  <Image
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                    priority={index < 2} // Prioritize first 2 images for faster loading
+                  />
                 </div>
               ))}
               {/* Duplicate slides for continuous effect */}
               {rightImageSlides.slice().reverse().map((src, index) => (
                 <div key={`right-dup-${index}`} className = "slide">
-                  <img src={src} alt={`Slide ${index + 1}`} />
+                  <Image
+                    src={src}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
               ))}
             </div>
